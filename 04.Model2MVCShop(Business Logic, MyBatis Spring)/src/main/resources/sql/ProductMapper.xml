@@ -25,11 +25,11 @@
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
-	 <select id="getProduct" parameterType="string"	resultMap="productSelectMap">
+	 <select id="getProduct" parameterType="int" resultMap="productSelectMap">
 		SELECT
 		prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date 		
 		FROM product 
-		WHERE prod_no = TO_CHAR(#{value})
+		WHERE prod_no = #{value}
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
@@ -37,7 +37,7 @@
 	   	UPDATE product
 	   	<set>
 	   		prod_name 	= #{prodName},
-			prod_detial	= #{prodDetail},
+			prod_detail	= #{prodDetail},
 			manufacture_day 	= #{manuDate},
 			price	= #{price},
 			image_file = #{fileName}
