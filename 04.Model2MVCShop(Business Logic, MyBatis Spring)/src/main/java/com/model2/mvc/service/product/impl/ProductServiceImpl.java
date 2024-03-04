@@ -14,7 +14,7 @@ import com.model2.mvc.service.product.ProductDao;
 import com.model2.mvc.service.product.ProductService;
 
 // 상품관리 서비스 구현
-@Service("ProductServiceImpl")
+@Service("productServiceImpl")
 public class ProductServiceImpl implements ProductService{
 
 	//Field
