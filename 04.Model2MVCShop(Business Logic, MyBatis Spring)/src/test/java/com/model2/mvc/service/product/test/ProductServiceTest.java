@@ -75,26 +75,26 @@ public class ProductServiceTest {
 		
 		Assert.assertEquals("갈치", product.getProdName());
 		Assert.assertEquals("제주은갈치", product.getProdDetail());
-		Assert.assertEquals("2024-03-01", product.getManuDate());
+		Assert.assertEquals("20240301", product.getManuDate());
 		Assert.assertEquals(10000, product.getPrice());
 		Assert.assertEquals("갈치사진", product.getFileName());
 		
 		product.setProdName("고등어");
 		product.setProdDetail("노르웨이고등어");
-		product.setManuDate("2024-02-28");
+		product.setManuDate("20240228");
 		product.setPrice(8000);
 		product.setFileName("고등어사진");
 		
 		productService.updateProduct(product);
 		
-		product = productService.getProduct(10032);
+		product = productService.getProduct(10033);
 		Assert.assertNotNull(product);
 		
 		System.out.println(product);
 		
 		Assert.assertEquals("고등어", product.getProdName());
 		Assert.assertEquals("노르웨이고등어", product.getProdDetail());
-		Assert.assertEquals("2024-02-28", product.getManuDate());
+		Assert.assertEquals("20240228", product.getManuDate());
 		Assert.assertEquals(8000, product.getPrice());
 		Assert.assertEquals("고등어사진", product.getFileName());		
 	}
@@ -131,4 +131,103 @@ public class ProductServiceTest {
 		totalCount = (Integer)map.get("totalCount");
 		System.out.println(totalCount);
 	}
+	
+	//@Test
+	public void testGetProductListByProdNo() throws Exception {
+
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(3);
+		search.setSearchCondition("0");
+		search.setSearchKeyword("10033");
+		Map<String, Object> map = productService.getProductList(search);
+		
+		List<Object> list = (List<Object>)map.get("list");
+		Assert.assertEquals(1, list.size());
+		
+		System.out.println(list);
+		
+		Integer totalCount = (Integer)map.get("totalCount");
+		System.out.println(totalCount);
+		
+		System.out.println("====================");
+		
+		search.setSearchCondition("0");
+		search.setSearchKeyword(""+System.currentTimeMillis());
+		map = productService.getProductList(search);
+		
+		list = (List<Object>)map.get("list");
+		Assert.assertEquals(0, list.size());
+		
+		System.out.println(list);
+		
+		totalCount = (Integer)map.get("totalCount");
+		System.out.println(totalCount);
+	}
+	
+	//@Test
+	public void testGetProductListByProdName() throws Exception {
+
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(3);
+		search.setSearchCondition("1");
+		search.setSearchKeyword("갈치");		
+		Map<String, Object> map = productService.getProductList(search);
+		
+		List<Object> list = (List<Object>)map.get("list");
+		Assert.assertEquals(1, list.size());
+		
+		System.out.println(list);
+		
+		Integer totalCount = (Integer)map.get("totalCount");
+		System.out.println(totalCount);
+		
+		System.out.println("====================");
+		
+		search.setSearchCondition("1");
+		search.setSearchKeyword(""+System.currentTimeMillis());
+		map = productService.getProductList(search);
+		
+		list = (List<Object>)map.get("list");
+		Assert.assertEquals(0, list.size());
+		
+		System.out.println(list);
+		
+		totalCount = (Integer)map.get("totalCount");
+		System.out.println(totalCount);
+	}
+	
+	//@Test
+	public void testGetProductListByPrice() throws Exception {
+
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(3);
+		search.setSearchCondition("2");
+		search.setSearchKeyword("10000");		
+		Map<String, Object> map = productService.getProductList(search);
+		
+		List<Object> list = (List<Object>)map.get("list");
+		Assert.assertEquals(3, list.size());
+		
+		System.out.println(list);
+		
+		Integer totalCount = (Integer)map.get("totalCount");
+		System.out.println(totalCount);
+		
+		System.out.println("====================");
+		
+		search.setSearchCondition("2");
+		search.setSearchKeyword(""+System.currentTimeMillis());
+		map = productService.getProductList(search);
+		
+		list = (List<Object>)map.get("list");
+		Assert.assertEquals(3, list.size());
+		
+		System.out.println(list);
+		
+		totalCount = (Integer)map.get("totalCount");
+		System.out.println(totalCount);
+	}	
 }//end of class
