@@ -63,8 +63,8 @@ public class ProductServiceTest {
 		Assert.assertEquals("갈치사진", product.getFileName());
 		Assert.assertEquals("20240301", product.getManuDate());
 		
-		Assert.assertNotNull(productService.getProduct(10010));
-		Assert.assertNotNull(productService.getProduct(10012));		
+		Assert.assertNotNull(productService.getProduct(10012));
+		Assert.assertNotNull(productService.getProduct(10016));
 	}
 	
 	//@Test
@@ -198,7 +198,7 @@ public class ProductServiceTest {
 		System.out.println(totalCount);
 	}
 	
-	//@Test
+	@Test
 	public void testGetProductListByPrice() throws Exception {
 
 		Search search = new Search();
