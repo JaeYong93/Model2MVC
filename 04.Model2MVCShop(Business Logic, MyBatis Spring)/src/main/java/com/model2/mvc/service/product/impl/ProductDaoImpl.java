@@ -8,46 +8,50 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.model2.mvc.common.Search;
-import com.model2.mvc.service.domain.User;
-import com.model2.mvc.service.user.UserDao;
+import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.product.ProductDao;
 
+//상품관리 DAO CRUD 구현
+@Repository("productDaoImpl")
+public class ProductDaoImpl implements ProductDao {
 
-//==> 회원관리 DAO CRUD 구현
-@Repository("userDaoImpl")
-public class ProductDaoImpl implements UserDao{
-	
-	///Field
+	//Field
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
-	public void setSqlSession(SqlSession sqlSession) {
+	public void setSqlsession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
 	
-	///Constructor
+	//Constructor
 	public ProductDaoImpl() {
 		System.out.println(this.getClass());
 	}
-
-	///Method
-	public void addUser(User user) throws Exception {
-		sqlSession.insert("UserMapper.addUser", user);
-	}
-
-	public User getUser(String userId) throws Exception {
-		return sqlSession.selectOne("UserMapper.getUser", userId);
-	}
 	
-	public void updateUser(User user) throws Exception {
-		sqlSession.update("UserMapper.updateUser", user);
+	//Method
+	@Override
+	public void addProduct(Product product) throws Exception {
+		sqlSession.insert("ProductMapper.addProduct", product);
 	}
 
-	public List<User> getUserList(Search search) throws Exception {
-		return sqlSession.selectList("UserMapper.getUserList", search);
+	@Override
+	public Product getProduct(int prodNo) throws Exception {
+		return sqlSession.selectOne("ProductMapper.getProduct", prodNo);
 	}
 
-	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return
+	@Override
+	public List<Product> getProductList(Search search) throws Exception {
+		return sqlSession.selectList("ProductMapper.getProductList", search);
+	}
+
+	@Override
+	public void updateProduct(Product product) throws Exception {
+		sqlSession.update("ProductMapper.updateProduct", product);
+	}
+
+	@Override
 	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
 	}
-}
+
+}//end of class
