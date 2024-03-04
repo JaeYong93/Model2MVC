@@ -69,8 +69,9 @@ public class ProductServiceTest {
 		Assert.assertNotNull(productService.getProduct(10010));
 		Assert.assertNotNull(productService.getProduct(10012));		
 	}
+	
 	//@Test
-	public void testUpdateUser() throws Exception {
+	public void testUpdateProduct() throws Exception {
 	
 		Product product = productService.getProduct(10032);
 		Assert.assertNotNull(product);

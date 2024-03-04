@@ -10,14 +10,14 @@
 				http://www.springframework.org/schema/context/spring-context.xsd">
 				
 	<!-- PropertyPlaceholderConfigurer 로 로드된 resource 는 ${  } 로 접근 가능 -->
-	<bean	id="propertyConfigurer"
+	<bean id="propertyConfigurer"
 				class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:config/jdbc.properties" />
+		<property name="location" value="classpath:config/jdbc.properties"/>
 	</bean>
 
 	<!-- DBCP (Apache Commons Database Connection) 사용 -->
 	<bean id="dataSource"	
-				class="org.apache.commons.dbcp.BasicDataSource" >
+			class="org.apache.commons.dbcp.BasicDataSource" >
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
         <property name="url" value="${jdbc.url}" />
         <property name="username" value="${jdbc.username}"/>
@@ -28,8 +28,8 @@
 												 
 	<!-- ㅇ SqlSession 인스턴스를 생성하는 SqlSessionFactory 생성
 	      ㅇ Factory Pattern  적용 :: Spring 의 FactoryBean interface 구현 -->
-	<bean 	id="sqlSessionFactoryBean" 
-					class="org.mybatis.spring.SqlSessionFactoryBean" >
+	<bean id="sqlSessionFactoryBean" 
+			class="org.mybatis.spring.SqlSessionFactoryBean" >
 		<property name="dataSource" ref="dataSource"/>
 		<property name="configLocation" value="classpath:sql/mybatis-config.xml"/>
 	</bean>
@@ -37,8 +37,8 @@
 	<!--  ㅇ SqlSessionTeampate 인스턴스생성
 		   ㅇ Spring 과 연동시 사용하는 핵심 SqlSession 구현체
 		   ㅇ Spring 에서 제공한는 Transaction 처리에 구조화된 SqlSession 구현체	 -->
-	<bean		id="sqlSessionTemplate"		
-					class="org.mybatis.spring.SqlSessionTemplate" >		
+	<bean id="sqlSessionTemplate"		
+			class="org.mybatis.spring.SqlSessionTemplate" >		
 		<constructor-arg ref="sqlSessionFactoryBean"/>
 	</bean>				
 	
