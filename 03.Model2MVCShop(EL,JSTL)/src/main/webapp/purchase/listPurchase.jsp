@@ -1,20 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"%>
 <%@ page pageEncoding="EUC-KR"%>
 
-<%@ page import="java.util.*"  %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ page import="com.model2.mvc.service.domain.*" %>
-<%@ page import="com.model2.mvc.common.Search" %>
-<%@ page import="com.model2.mvc.common.Page" %>
-<%@ page import="com.model2.mvc.common.util.CommonUtil" %>
-
-<%
-	List<Purchase> list = (List<Purchase>)request.getAttribute("list");
-	Page resultPage = (Page)request.getAttribute("resultPage");
-	Search search = (Search)request.getAttribute("search");
-	
-	User user = (User)request.getAttribute("user");
-%>
 <html>
 <head>
 <meta charset="EUC-KR">
@@ -51,7 +39,7 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
-		<td colspan="11" >전체  <%= resultPage.getTotalCount() %> 건수, 현재 <%= resultPage.getCurrentPage() %> 페이지</td>
+		<td colspan="11" >전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage} 페이지</td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
@@ -70,49 +58,50 @@
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
 
-	<% 
-		for(int i=0; i<list.size(); i++) {
-		Purchase purchase = (Purchase)list.get(i);
-	%>
-
-	<tr class="ct_list_pop">
-		<td align="center">
-			<a href="/getPurchase.do?tranNo=<%= purchase.getTranNo()%>"><%= i+1%></a>
+	<c:set var = "i" value = "0"/>
+	<c:forEach var = "purchase" items = "${list}">
+		<c:set var ="i" value = "${i+1}"/>
+		<tr class="ct_list_pop">
+			<td align="center">
+			<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${i} </a>
 		</td>
 		<td></td>
+	</c:forEach>
+
 		
 		
 		<td align="left">
-			<a href="/getUser.do?userId=<%= purchase.getBuyer().getUserId() %>"><%= purchase.getBuyer().getUserId() %></a>
+			<a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
 		</td>
 		<td></td>
-		<td align="left"><%= purchase.getBuyer().getUserName() %></td>
+		<td align="left">${purchase.buyeruserName}</td>
 		<td></td>
-		<td align="left"><%= purchase.getBuyer().getPhone() %> </td>
+		<td align="left">${purchase.buyer.phone}</td>
 		<td></td>
-		<td align="left"><% if(purchase.getTranCode().trim().equals("2")){ %>
-								현재 구매완료 상태입니다.	
-						 <% } else if(purchase.getTranCode().trim().equals("3")){ %>
-								현재 배송중 상태입니다.
-						 <% } else if(purchase.getTranCode().trim().equals("4")){ %>
-								현재 배송완료 상태입니다.
-						 <% } %>										
+		<td align="left">
+		<c:if test = "${purchase.tranCode.trim eq '2'}">
+			현재 구매완료 상태입니다.	
+		</c:if>
+		<c:if test = "${purchase.tranCode.trim eq '3'}">
+			현재 배송중 상태입니다.
+		</c:if>
+		<c:if test = "${purchase.tranCode.trim eq '4'}">
+			현재 배송완료 상태입니다.
+		</c:if>										
 		</td>
 		<td></td>
 			 <td align="left">
-			 	<% if(purchase.getTranCode().trim().equals("3")) { %>
-			 	<a href="updateTranCode.do?tranNo=<%= purchase.getTranNo()%>&tranCode=<%= purchase.getTranCode() %>">물건도착</a>
-				<% } else { %>
-				<% } %>				 
+			 	<c:if test = "${purchase.tranCode.trim eq '3'}">
+			 	<a href="updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=${purchase.tranCode}">물건도착</a>
+				</c:if>				 
 			 </td>	
 		<td></td>
-		
 	</tr>
 
 	<tr>
 		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
 	</tr>
-	<% } %>
+
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">

@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"%>
 <%@ page pageEncoding="EUC-KR"%>
 
-<%@ page import="com.model2.mvc.service.domain.Purchase" %>
-
-<%
-	Purchase purchase = (Purchase)request.getAttribute("purchase");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -19,51 +15,53 @@
 <table border=1>
 	<tr>
 		<td>물품번호</td>
-		<td><%= purchase.getPurchaseProd().getProdNo() %></td>
+		<td>${purchase.purchaseProd.prodNo}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자아이디</td>
-		<td><%= purchase.getBuyer().getUserId() %></td>
+		<td>${purchase.buyer.userId}</td>
 		<td></td>
 	</tr>
 	
 	<tr>
 		<td>구매방법</td>
-		<td><% if(purchase.getPaymentOption().equals("1")) { %>
-				현금구매
-			<% } else if(purchase.getPaymentOption().equals("2")) { %>	
-				신용구매
-			<% } %>		
+		<td>
+		<c:if test="${purchase.paymentOption eq '1'}">
+			현금구매
+		</c:if>
+		<c:if test="${purchase.paymentOption eq '2'}">		
+			신용구매
+		</c:if>			
 		</td>
 		<td></td>
 	</tr>
 	
 	<tr>
 		<td>구매자이름</td>
-		<td><%= purchase.getReceiverName() %></td>
+		<td>${purchase.receiverName}</td>
 		<td></td>
 	</tr>
 	
 	<tr>
 		<td>구매자연락처</td>
-		<td><%= purchase.getReceiverPhone() %></td>
+		<td>${purchase.receiverPhone}</td>
 		<td></td>
 	</tr>
 	
 	<tr>
 		<td>구매자주소</td>
-		<td><%= purchase.getDlvyAddr() %></td>
+		<td>${purchase.dlvyAddr}</td>
 		<td></td>
 	</tr>
 		<tr>
 		<td>구매요청사항</td>
-		<td><%= purchase.getDlvyRequest() %></td>
+		<td>${purcahse.dlvyRequest}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>배송희망일자</td>
-		<td><%= purchase.getDlvyDate() %></td>
+		<td>${purchase.dlvyDate}</td>
 		<td></td>
 	</tr>
 </table>
