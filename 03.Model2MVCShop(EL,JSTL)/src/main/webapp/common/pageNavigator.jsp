@@ -9,6 +9,10 @@
     <c:when test="${param.listType eq 'product'}">
         <c:set var="listFunction" value="fncGetProductList" />
     </c:when>
+    <c:when test="${param.listType eq 'purchase'}">
+        <c:set var="listFunction" value="fncGetPurchaseList" />
+    </c:when>    
+    
 </c:choose>
 
 <c:if test="${resultPage.currentPage > resultPage.pageUnit}">
