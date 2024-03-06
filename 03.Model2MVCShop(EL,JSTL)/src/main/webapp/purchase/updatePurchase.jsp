@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"%>
 <%@ page pageEncoding="EUC-KR"%>
 
-<%@ page import="com.model2.mvc.service.domain.*" %>
-
-<%
-	Purchase purchase = (Purchase)request.getAttribute("purchase");
-%>
-
 <html>
 <head>
 <title>구매정보수정</title>
@@ -19,7 +13,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="updatePurchase" method="post" action="/updatePurchase.do?tranNo=<%= purchase.getTranNo() %>" >
+<form name="updatePurchase" method="post" action="/updatePurchase.do?tranNo=${purchase.tranNo}" >
 
 <table border=1>
 
@@ -53,9 +47,9 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<%= purchase.getBuyer().getUserId() %>
+			{purchase.buyer.userId}
 		</td>
-		<input type = "hidden" name = "buyerId" value = <%= purchase.getBuyer().getUserId() %>/>
+		<input type = "hidden" name = "buyerId" value = "${purchase.buyer.userId}"/>
 	</tr>
 	
 	<tr>
@@ -69,8 +63,8 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
       		<select name="paymentOption" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20">
-				<option value="1" <%= purchase.getPaymentOption().trim().equals("1") ? "selected":""%>>현금구매</option>
-				<option value="2"<%= purchase.getPaymentOption().trim().equals("2") ? "selected":""%>>신용구매</option>
+				<option value="1" ${purchase.paymentOption.trim eq '1'} ? "selected":""%>>현금구매</option>
+				<option value="2" ${purchase.paymentOption.trim eq '2'} ? "selected":""%>>>신용구매</option>
     		</select>			
 		</td>
 	</tr>
@@ -85,7 +79,7 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-		 <input type = "text" name = "receiverName" value = <%= purchase.getReceiverName() %>
+		 <input type = "text" name = "receiverName" value = "${purchase.receiverName}
 		 	class = "ct_input_g" style = "width:100px; height:19px" maxLength="20"/>
 		</td>
 	</tr>
@@ -100,7 +94,7 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-		 <input type = "text" name = "receiverPhone" value = <%= purchase.getBuyer().getPhone() %>
+		 <input type = "text" name = "receiverPhone" value = "${purchase.buyer.phone}"
 		 	class = "ct_input_g" style = "width:100px; height:19px" maxLength="20"/>
 		</td>
 	</tr>
@@ -115,7 +109,7 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-		 <input type = "text" name = "dlvyAddr" value = <%= purchase.getDlvyAddr() %>
+		 <input type = "text" name = "dlvyAddr" value = "${purchase.dlvyAddr}"
 		 	class = "ct_input_g" style = "width:100px; height:19px" maxLength="20"/>
 		</td>
 	</tr>
@@ -130,7 +124,7 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-		 <input type = "text" name = "dlvyRequest" value = <%= purchase.getDlvyRequest() %>
+		 <input type = "text" name = "dlvyRequest" value = "${purchase.dlvyRequest}"
 		 	class = "ct_input_g" style = "width:100px; height:19px" maxLength="20"/>
 		</td>
 	</tr>
