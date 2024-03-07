@@ -41,6 +41,8 @@ public class ListProductAction extends Action{
 		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("search", search);	
 	
+		System.out.println(map);
+		
 		return "forward:/product/listProduct.jsp";
 		
 	}

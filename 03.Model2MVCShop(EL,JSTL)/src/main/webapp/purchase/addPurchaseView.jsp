@@ -114,7 +114,7 @@ function fncAddPurchase() {
 			가격
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.price}&nbsp;원
+		<td class="ct_write01">${product.price}원
 		</td>
 	</tr>
 
@@ -155,8 +155,8 @@ function fncAddPurchase() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
       		<select name="paymentOption" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20">
-				<option value="1" ${purchase.paymentOption.trim eq '1'} ? "selected":""%>>현금구매</option>
-				<option value="2" ${purchase.paymentOption.trim eq '2'} ? "selected":""%>>>신용구매</option>
+				<option value="1" ${purchase.paymentOption.trim eq '1'} ? "selected":""%>현금구매</option>
+				<option value="2" ${purchase.paymentOption.trim eq '2'} ? "selected":""%>신용구매</option>
     		</select>
 		</td>
 	</tr>

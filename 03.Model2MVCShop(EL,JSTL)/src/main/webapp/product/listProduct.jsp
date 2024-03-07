@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <html>
 <head>
 <title>상품목록조회</title>
@@ -131,8 +132,40 @@ function fncGetProductList(currentPage) {
 	 	<td align = "left">${product.price} </td> 
 		<td></td>
 		<td align = "left">${product.regDate} </td>
+		<td></td>/>
+		<c:if test="${not empty menu}">
+    		<c:choose>
+        		<c:when test="${menu eq 'manage'}">
+            		<c:choose>
+                		<c:when test="${product.proTranCode eq ''}">
+                    		<td align="left">판매중</td>
+                		</c:when>
+                		<c:when test="${product.proTranCode eq '2'}">
+                    		<td align="left">구매완료
+                    		<a href="updateTranCodeByProd.do?prodNo=${product.prodNo}
+                    			&tranCode=${product.proTranCode}">배송하기</a></td>
+                		</c:when>
+                		<c:when test="${product.proTranCode eq '3'}">
+                  	  		<td align="left">배송중</td>
+                		</c:when>
+                		<c:when test="${product.proTranCode eq '4'}">
+                    		<td align="left">배송완료</td>
+                		</c:when>
+            		</c:choose>
+        		</c:when>
+        		<c:when test="${menu eq 'search'}">
+            		<c:choose>
+                		<c:when test="${empty product.proTranCode}">
+                    		<td align="left">판매중</td>
+                		</c:when>
+                		<c:otherwise>
+                    		<td align="left">재고없음</td>
+                		</c:otherwise>
+            		</c:choose>
+        		</c:when>
+   			 </c:choose>
+		</c:if>
 		<td></td>
-		<td align = "left">판매중</td>
 		</tr>
 	<tr>
 		<td colspan="11" bgcolor="D6D7D6" height="1"></td>

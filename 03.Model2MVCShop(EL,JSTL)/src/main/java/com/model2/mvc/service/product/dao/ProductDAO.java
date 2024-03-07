@@ -54,7 +54,10 @@ public class ProductDAO {
 		
 		Connection con = DBUtil.getConnection();
 		
-		String sql = "SELECT * FROM PRODUCT";
+		String sql = "SELECT p.*, (SELECT t.tran_status_code " +
+				" FROM transaction t " +
+				" WHERE p.prod_no = t.prod_no) AS tranCode " +
+				" FROM product p";
 		
 		if (search.getSearchCondition() != null) {
 			if (search.getSearchCondition().equals("0") && !search.getSearchKeyword().equals("")) {
@@ -92,6 +95,9 @@ public class ProductDAO {
 			product.setPrice(rs.getInt("price"));
 			product.setFileName(rs.getString("image_file"));
 			product.setRegDate(rs.getDate("reg_date"));
+
+			String tranCode = rs.getString("tranCode");
+			product.setProTranCode(tranCode != null ? tranCode.trim() : "");			
 			
 			list.add(product);
 		}
