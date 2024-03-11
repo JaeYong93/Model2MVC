@@ -132,7 +132,7 @@ function fncGetProductList(currentPage) {
 	 	<td align = "left">${product.price} </td> 
 		<td></td>
 		<td align = "left">${product.regDate} </td>
-		<td></td>/>
+		<td></td>
 		<c:if test="${not empty menu}">
     		<c:choose>
         		<c:when test="${menu eq 'manage'}">
@@ -155,7 +155,7 @@ function fncGetProductList(currentPage) {
         		</c:when>
         		<c:when test="${menu eq 'search'}">
             		<c:choose>
-                		<c:when test="${empty product.proTranCode}">
+                		<c:when test="${product.proTranCode eq ''}">
                     		<td align="left">∆«∏≈¡ﬂ</td>
                 		</c:when>
                 		<c:otherwise>

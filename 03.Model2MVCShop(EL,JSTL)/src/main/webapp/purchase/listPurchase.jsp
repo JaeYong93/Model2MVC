@@ -58,49 +58,48 @@
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
 
+
 	<c:set var = "i" value = "0"/>
 	<c:forEach var = "purchase" items = "${list}">
 		<c:set var ="i" value = "${i+1}"/>
 		<tr class="ct_list_pop">
 			<td align="center">
 			<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${i} </a>
-		</td>
-		<td></td>
-	</c:forEach>
-
+			</td>
+			<td></td>
 		
-		
-		<td align="left">
-			<a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
-		</td>
-		<td></td>
-		<td align="left">${purchase.buyeruserName}</td>
-		<td></td>
-		<td align="left">${purchase.buyer.phone}</td>
-		<td></td>
-		<td align="left">
-		<c:if test = "${purchase.tranCode.trim eq '2'}">
-			현재 구매완료 상태입니다.	
-		</c:if>
-		<c:if test = "${purchase.tranCode.trim eq '3'}">
-			현재 배송중 상태입니다.
-		</c:if>
-		<c:if test = "${purchase.tranCode.trim eq '4'}">
-			현재 배송완료 상태입니다.
-		</c:if>										
-		</td>
-		<td></td>
+			<td align="left">
+				<a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
+			</td>
+			<td></td>
+			<td align="left">${purchase.buyer.userName}</td>
+			<td></td>
+			<td align="left">${purchase.buyer.phone}</td>
+			<td></td>
+			<td align="left">
+			<c:if test = "${purchase.tranCode eq '2'}">
+				현재 구매완료 상태입니다.	
+			</c:if>
+			<c:if test = "${purchase.tranCode eq '3'}">
+				현재 배송중 상태입니다.
+			</c:if>
+			<c:if test = "${purchase.tranCode eq '4'}">
+				현재 배송완료 상태입니다.
+			</c:if>										
+			</td>
+			<td></td>
 			 <td align="left">
-			 	<c:if test = "${purchase.tranCode.trim eq '3'}">
+			 	<c:if test = "${purchase.tranCode eq '3'}">
 			 	<a href="updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=${purchase.tranCode}">물건도착</a>
 				</c:if>				 
 			 </td>	
 		<td></td>
-	</tr>
-
+			</tr>
 	<tr>
 		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-	</tr>
+	</tr>			
+					
+	</c:forEach>
 
 </table>
 

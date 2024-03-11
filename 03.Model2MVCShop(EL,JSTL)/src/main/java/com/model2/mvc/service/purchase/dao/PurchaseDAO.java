@@ -79,7 +79,7 @@ public class PurchaseDAO {
 			purchase = new Purchase();
 				
 			purchase.setTranNo(rs.getInt("tran_no"));
-			purchase.setTranCode(rs.getString("tran_status_code"));
+			purchase.setTranCode(rs.getString("tran_status_code").trim());
 
 		}	
 		con.close();
@@ -120,13 +120,13 @@ public class PurchaseDAO {
 			purchase.setPurchaseProd(product);
 			purchase.setBuyer(user);
 			purchase.setTranNo(rs.getInt("tran_no"));
-			purchase.setPaymentOption(rs.getString("payment_option"));
+			purchase.setPaymentOption(rs.getString("payment_option").trim());
 			purchase.setReceiverName(rs.getString("receiver_name"));
 			purchase.setReceiverPhone(rs.getString("receiver_phone"));
 			purchase.setDlvyAddr(rs.getString("demailaddr"));
 			purchase.setDlvyRequest(rs.getString("dlvy_request"));
 			purchase.setDlvyDate(rs.getString("dlvy_date"));
-			purchase.setTranCode(rs.getString("tran_status_code"));
+			purchase.setTranCode(rs.getString("tran_status_code").trim());
 			purchase.setOrderDate(rs.getDate("order_data"));
 				
 			list.add(purchase);
