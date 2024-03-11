@@ -3,7 +3,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <html>
 <head>
 <title>상품목록조회</title>
@@ -133,17 +132,16 @@ function fncGetProductList(currentPage) {
 		<td></td>
 		<td align = "left">${product.regDate} </td>
 		<td></td>
-		<c:if test="${not empty menu}">
+		<c:if test="${not empty param.menu}">
     		<c:choose>
-        		<c:when test="${menu eq 'manage'}">
+        		<c:when test="${param.menu eq 'manage'}">
             		<c:choose>
-                		<c:when test="${product.proTranCode eq ''}">
+                		<c:when test="${empty product.proTranCode}">
                     		<td align="left">판매중</td>
                 		</c:when>
                 		<c:when test="${product.proTranCode eq '2'}">
                     		<td align="left">구매완료
-                    		<a href="updateTranCodeByProd.do?prodNo=${product.prodNo}
-                    			&tranCode=${product.proTranCode}">배송하기</a></td>
+                    		<a href="updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=${product.proTranCode}">배송하기</a></td>
                 		</c:when>
                 		<c:when test="${product.proTranCode eq '3'}">
                   	  		<td align="left">배송중</td>
@@ -153,9 +151,9 @@ function fncGetProductList(currentPage) {
                 		</c:when>
             		</c:choose>
         		</c:when>
-        		<c:when test="${menu eq 'search'}">
+        		<c:when test="${param.menu eq 'search'}">
             		<c:choose>
-                		<c:when test="${product.proTranCode eq ''}">
+                		<c:when test="${empty product.proTranCode}">
                     		<td align="left">판매중</td>
                 		</c:when>
                 		<c:otherwise>

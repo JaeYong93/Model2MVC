@@ -77,19 +77,19 @@
 			<td align="left">${purchase.buyer.phone}</td>
 			<td></td>
 			<td align="left">
-			<c:if test = "${purchase.tranCode eq '2'}">
+			<c:if test = "${purchase.tranCode == '2'}">
 				현재 구매완료 상태입니다.	
 			</c:if>
-			<c:if test = "${purchase.tranCode eq '3'}">
+			<c:if test = "${purchase.tranCode == '3'}">
 				현재 배송중 상태입니다.
 			</c:if>
-			<c:if test = "${purchase.tranCode eq '4'}">
+			<c:if test = "${purchase.tranCode == '4'}">
 				현재 배송완료 상태입니다.
 			</c:if>										
 			</td>
 			<td></td>
 			 <td align="left">
-			 	<c:if test = "${purchase.tranCode eq '3'}">
+			 	<c:if test = "${purchase.tranCode == '3'}">
 			 	<a href="updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=${purchase.tranCode}">물건도착</a>
 				</c:if>				 
 			 </td>	
