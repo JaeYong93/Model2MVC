@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PurchaseMapper">
+ 	
+	<resultMap id="purchaseSelectMap" type="purchase">
+		<result property="tranNo"		 column="tran_no"		 	jdbcType="INTEGER"/>
+		<result property="purcahseProd"	 column="prod_no"		 	jdbcType="INTEGER"/>
+		<result property="buyer" 		 column="buyer_id"	 	 	jdbcType="VARCHAR"/>
+		<result property="paymentOption" column="payment_option" 	jdbcType="CHAR"/>		
+		<result property="receiverName"  column="receiver_name"  	jdbcType="VARCHAR"/>
+		<result property="receiverPhone" column="receiver_phone" 	jdbcType="VARCHAR"/>
+		<result property="dlvyAddr" 	 column="demailaddr" 	 	jdbcType="VARCHAR"/>
+		<result property="dlvyRequest" 	 column="dlvy_request" 		jdbcType="VARCHAR"/>
+		<result property="tranCode" 	 column="tran_status_code"	jdbcType="CHAR"/>
+		<result property="orderDate" 	 column="order_data" 		jdbcType="DATE"/>		
+		<result property="dlvyDate" 	 column="dlvy_date" 		jdbcType="DATE"/>		
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+	<insert id="addPurchase" parameterType="purchase">
+	 	INSERT
+		INTO transaction 
+		VALUES(seq_product_tran_no.nextval, #{purchaseProd.prodNo}, #{buyer.userId}, #{paymentOption:CHAR}, 
+				#{receiverName:VARCHAR}, #{receiverPhone:VARCHAR}, #{dlvyAddr:VARCHAR}, #{dlvyRequest:VARCHAR},
+				2, SYSDATE, #{dlvyDate})		
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select id="getPurchase" parameterType="int" resultMap="purchaseSelectMap">
+		SELECT * 		
+		FROM transaction 
+		WHERE tran_no = #{value}
+	 </select>
+	 
+	 <select id="getPurchaseByProd" parameterType="int" resultMap="purchaseSelectMap">
+		SELECT tran_no, tran_status_code	
+		FROM transaction 
+		WHERE prod_no = #{value}
+	 </select>
+	 
+	 <!-- SQL : UPDATE -->
+	 <update id="updatePurchase" parameterType="purchase">
+	   	UPDATE product
+	   	<set>
+	   		prod_name 	= #{prodName},
+			prod_detail	= #{prodDetail},
+			manufacture_day 	= #{manuDate},
+			price	= #{price},
+			image_file = #{fileName}
+	   	</set>
+	   	WHERE prod_no = #{prodNo}
+	 </update>
+		 
+	<!-- SQL : SELECT LIST -->
+	<select id="getPurchaseList" parameterType="search" resultMap="purchaseSelectMap">
+	  	SELECT *
+	  	FROM (SELECT inner_table.* , ROWNUM AS row_seq
+	  			FROM(SELECT prod_name, price, reg_date
+					FROM product
+					ORDER BY prod_no) inner_table
+					WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount" parameterType="search" resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(SELECT prod_name, price, reg_date
+				FROM product) countTable						
+	 </select>
+	 
+</mapper>
