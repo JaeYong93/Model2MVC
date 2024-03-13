@@ -33,7 +33,7 @@ function fncAddProduct() {
 		return;
 	}
 	
-	document.prodDetailForm.action ='/addProduct.do';
+	document.prodDetailForm.action ='/product/addProduct';
 	document.prodDetailForm.submit();
 }
 

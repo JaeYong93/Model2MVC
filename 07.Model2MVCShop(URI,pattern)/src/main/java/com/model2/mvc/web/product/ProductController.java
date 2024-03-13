@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.model2.mvc.common.Page;
@@ -19,6 +20,7 @@ import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductService;
 
 @Controller
+@RequestMapping("/product/*")
 public class ProductController {
 
 	@Autowired
@@ -35,19 +37,20 @@ public class ProductController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
-	@RequestMapping("/addProduct.do")
+	@RequestMapping(value = "addProduct", method = RequestMethod.POST)
 	public String addProduct(@ModelAttribute("product") Product product) throws Exception {
 		
-		System.out.println("/addProduct.do");
+		System.out.println("/product/addProduct : POST");
 		productService.addProduct(product);
+		
 		return "forward:/product/getProduct.jsp";
 	}
 	
-	@RequestMapping("/getProduct.do")
+	@RequestMapping(value = "getProduct", method = RequestMethod.GET)
 	public String getProduct(@RequestParam("menu") String menu,
 								@RequestParam("prodNo") int prodNo, Model model) throws Exception {
 		
-		System.out.println("/getProduct.do");
+		System.out.println("/product/getProduct : POST");
 		Product product = productService.getProduct(prodNo);
 
 		model.addAttribute("prodNo", prodNo);
@@ -58,7 +61,7 @@ public class ProductController {
 		
 		if(menu !=null) {
 			if(menu.equals("manage")) {
-				return "forward:/updateProductView.do";
+				return "forward:/product/updateProduct";
 				
 			}else if(menu.equals("search")){
 				return "forward:/product/readProduct.jsp";
@@ -67,21 +70,21 @@ public class ProductController {
 		return "forward:/product/readProduct.jsp";
 	}
 	
-	@RequestMapping("/updateProductView.do")
+	@RequestMapping(value = "updateProduct", method = RequestMethod.GET)
 	public String updateProductView(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
 		
-		System.out.println("/updateProductView.do");
+		System.out.println("/product/updateProduct : GET");
 		Product product = productService.getProduct(prodNo);
 		model.addAttribute("product", product);	
 		return "forward:/product/updateProduct.jsp";
 	}
 	
 	
-	@RequestMapping("/updateProduct.do")
+	@RequestMapping(value = "updateProduct", method = RequestMethod.POST)
 	public String updateProduct(@RequestParam("prodNo") int prodNo,
 								@ModelAttribute("product") Product product, Model model) throws Exception {
 		
-		System.out.println("/updateProduct.do");
+		System.out.println("/product/updateProduct : POST");
 		
 		productService.updateProduct(product);
 
@@ -91,11 +94,11 @@ public class ProductController {
 		return "forward:/product/getProduct.jsp";
 	}
 	
-	@RequestMapping("/listProduct.do")
+	@RequestMapping(value = "listProduct")
 	public String listProduct(@RequestParam("menu") String menu, 
 								@ModelAttribute("search") Search search, Model model) throws Exception {
 
-		System.out.println("/listProduct.do");
+		System.out.println("/product/listProduct : GET/POST");
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
