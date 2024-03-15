@@ -1,8 +1,25 @@
 package com.model2.mvc.service.purchase.test;
 
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.model2.mvc.service.purchase.PurchaseService;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:config/commonservice.xml"})
 public class PurchaseServiceTest {
 
-	public PurchaseServiceTest() {
+	@Autowired
+	@Qualifier("purchaseServiceImpl")
+	private PurchaseService purchaseService;
+
+	//@Test
+	public void testAddpurchase() throws Exception {
+		
 	}
+
 
 }

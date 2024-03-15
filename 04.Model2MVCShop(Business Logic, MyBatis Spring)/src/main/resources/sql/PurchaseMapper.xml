@@ -7,31 +7,32 @@
 <mapper namespace="PurchaseMapper">
  	
 	<resultMap id="purchaseSelectMap" type="purchase">
-		<result property="tranNo"		 column="tran_no"		 	jdbcType="INTEGER"/>
-		<result property="purcahseProd"	 column="prod_no"		 	jdbcType="INTEGER"/>
-		<result property="buyer" 		 column="buyer_id"	 	 	jdbcType="VARCHAR"/>
-		<result property="paymentOption" column="payment_option" 	jdbcType="CHAR"/>		
-		<result property="receiverName"  column="receiver_name"  	jdbcType="VARCHAR"/>
-		<result property="receiverPhone" column="receiver_phone" 	jdbcType="VARCHAR"/>
-		<result property="dlvyAddr" 	 column="demailaddr" 	 	jdbcType="VARCHAR"/>
-		<result property="dlvyRequest" 	 column="dlvy_request" 		jdbcType="VARCHAR"/>
-		<result property="tranCode" 	 column="tran_status_code"	jdbcType="CHAR"/>
-		<result property="orderDate" 	 column="order_data" 		jdbcType="DATE"/>		
-		<result property="dlvyDate" 	 column="dlvy_date" 		jdbcType="DATE"/>		
+		<result property="tranNo"		 		column="tran_no"		  jdbcType="INTEGER"/>
+		<result property="purcahseProd.pordNo"	column="prod_no"		  jdbcType="INTEGER"/>
+		<result property="buyer.userId" 		column="buyer_id"		  jdbcType="VARCHAR"/>
+		<result property="paymentOption" 		column="payment_option"   jdbcType="VARCHAR"/>		
+		<result property="receiverName"  		column="receiver_name"    jdbcType="VARCHAR"/>
+		<result property="receiverPhone" 		column="receiver_phone"   jdbcType="VARCHAR"/>
+		<result property="dlvyAddr" 	 		column="demailaddr" 	  jdbcType="VARCHAR"/>
+		<result property="dlvyRequest" 	 		column="dlvy_request" 	  jdbcType="VARCHAR"/>
+		<result property="tranCode" 	 		column="tran_status_code" jdbcType="VARCHAR"/>
+		<result property="orderDate" 	 		column="order_data" 	  jdbcType="DATE"/>		
+		<result property="dlvyDate" 	 		column="dlvy_date" 		  jdbcType="DATE"/>		
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
 	<insert id="addPurchase" parameterType="purchase">
 	 	INSERT
-		INTO transaction 
-		VALUES(seq_product_tran_no.nextval, #{purchaseProd.prodNo}, #{buyer.userId}, #{paymentOption:CHAR}, 
-				#{receiverName:VARCHAR}, #{receiverPhone:VARCHAR}, #{dlvyAddr:VARCHAR}, #{dlvyRequest:VARCHAR},
-				2, SYSDATE, #{dlvyDate})		
+		INTO transaction(tran_no, prod_no, buyer_id, payment_option, receiver_name,
+		receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date) 
+		VALUES(seq_product_tran_no.nextval, #{purchaseProd.prodNo}, #{buyer.userId}, 
+				#{paymentOption:VARCHAR}, #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR}, 
+				#{dlvyAddr:VARCHAR}, #{dlvyRequest:VARCHAR}, 2, SYSDATE, #{dlvyDate})		
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select id="getPurchase" parameterType="int" resultMap="purchaseSelectMap">
-		SELECT * 		
+		SELECT buyer.userId, receiverName, receiverPhone, tranCode		
 		FROM transaction 
 		WHERE tran_no = #{value}
 	 </select>
@@ -46,22 +47,23 @@
 	 <update id="updatePurchase" parameterType="purchase">
 	   	UPDATE product
 	   	<set>
-	   		prod_name 	= #{prodName},
-			prod_detail	= #{prodDetail},
-			manufacture_day 	= #{manuDate},
-			price	= #{price},
-			image_file = #{fileName}
+	   		payment_option = #{paymentOption},
+	   		reciver_name = #{reciverName},
+	   		reciver_phone = #{reciverPhonge},
+	   		demailaddr = #{dlvyAddr},
+	   		dlvy_request = #{dlvyRequest},
+	   		dlvy_date = #{dlvyDate},
 	   	</set>
-	   	WHERE prod_no = #{prodNo}
+	   	WHERE tran_no = #{tranNo}
 	 </update>
 		 
 	<!-- SQL : SELECT LIST -->
 	<select id="getPurchaseList" parameterType="search" resultMap="purchaseSelectMap">
 	  	SELECT *
 	  	FROM (SELECT inner_table.* , ROWNUM AS row_seq
-	  			FROM(SELECT prod_name, price, reg_date
-					FROM product
-					ORDER BY prod_no) inner_table
+	  			FROM(SELECT buyer_id, reciver_name, reciver_phone, tran_status_code 
+					FROM purchase
+					ORDER BY tran_no) inner_table
 					WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
