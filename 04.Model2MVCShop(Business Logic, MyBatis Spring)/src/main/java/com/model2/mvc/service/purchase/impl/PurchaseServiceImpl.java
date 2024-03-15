@@ -30,22 +30,22 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	@Override
 	public void addPurchase(Purchase purchase) throws Exception {
-		purchaseDao.insertPurchase(purchase);
+		purchaseDao.addPurchase(purchase);
 	}
 
 	@Override
 	public Purchase getPurchase(int tranNo) throws Exception {
-		return purchaseDao.findPurchase(tranNo);
+		return purchaseDao.getPurchase(tranNo);
 	}
 
 	@Override
 	public Purchase getPurchaseByProd(int prodNo) throws Exception {
-		return purchaseDao.findPurchaseByProd(prodNo);
+		return purchaseDao.getPurchaseByProd(prodNo);
 	}
 
 	@Override
-	public Map<String, Object> getPurchaseList(Search search, String usreId) throws Exception {
-		List<Purchase> list = purchaseDao.getPurchseList(search, usreId);
+	public Map<String, Object> getPurchaseList(Search search, String userId) throws Exception {
+		List<Object> list = purchaseDao.getPurchaseList(search, userId);
 		int totalCount = purchaseDao.getTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -57,7 +57,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	@Override
 	public Map<String, Object> getSaleList(Search search) throws Exception {
-		List<Purchase> list = purchaseDao.getSaleList(search);
+		List<Object> list = purchaseDao.getSaleList(search);
 		int totalCount = purchaseDao.getTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();

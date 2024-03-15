@@ -8,7 +8,7 @@
  	
 	<resultMap id="purchaseSelectMap" type="purchase">
 		<result property="tranNo"		 		column="tran_no"		  jdbcType="INTEGER"/>
-		<result property="purcahseProd.pordNo"	column="prod_no"		  jdbcType="INTEGER"/>
+		<result property="purchaseProd.prodNo"	column="prod_no"		  jdbcType="INTEGER"/>
 		<result property="buyer.userId" 		column="buyer_id"		  jdbcType="VARCHAR"/>
 		<result property="paymentOption" 		column="payment_option"   jdbcType="VARCHAR"/>		
 		<result property="receiverName"  		column="receiver_name"    jdbcType="VARCHAR"/>
@@ -25,14 +25,15 @@
 	 	INSERT
 		INTO transaction(tran_no, prod_no, buyer_id, payment_option, receiver_name,
 		receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date) 
-		VALUES(seq_product_tran_no.nextval, #{purchaseProd.prodNo}, #{buyer.userId}, 
+		VALUES(seq_transaction_tran_no.nextval, #{purchaseProd.prodNo}, #{buyer.userId}, 
 				#{paymentOption:VARCHAR}, #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR}, 
-				#{dlvyAddr:VARCHAR}, #{dlvyRequest:VARCHAR}, 2, SYSDATE, #{dlvyDate})		
+				#{dlvyAddr:VARCHAR}, #{dlvyRequest:VARCHAR}, 2, SYSDATE, #{dlvyDate:DATE})		
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select id="getPurchase" parameterType="int" resultMap="purchaseSelectMap">
-		SELECT buyer.userId, receiverName, receiverPhone, tranCode		
+		SELECT tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, 
+		demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date		
 		FROM transaction 
 		WHERE tran_no = #{value}
 	 </select>
@@ -44,34 +45,48 @@
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
-	 <update id="updatePurchase" parameterType="purchase">
-	   	UPDATE product
-	   	<set>
-	   		payment_option = #{paymentOption},
-	   		reciver_name = #{reciverName},
-	   		reciver_phone = #{reciverPhonge},
-	   		demailaddr = #{dlvyAddr},
-	   		dlvy_request = #{dlvyRequest},
-	   		dlvy_date = #{dlvyDate},
-	   	</set>
-	   	WHERE tran_no = #{tranNo}
-	 </update>
+	<update id="updatePurchase" parameterType="purchase">
+		UPDATE transaction
+		<set>
+  			<if test ="paymentOption != null">payment_option = #{paymentOption}, </if>
+  			<if test = "receiverName != null">receiver_name = #{receiverName}, </if>
+  			<if test = "receiverPhone != null">reciver_phone = #{reciverPhonge}, </if>
+  			<if test = "dlvyAddr != null">demailaddr = #{dlvyAddr}, </if>
+ 			<if test = "dlvyRequest != null">dlvy_request = #{dlvyRequest}, </if>
+			<if test = "dlvyDate != null">dlvy_date = #{dlvyDate} </if>
+		</set>
+		WHERE tran_no = #{tranNo}
+	</update>
+	 
+	<update id ="updateTranCode" parameterType="purchase">
+		UPDATE transaction
+		<set>
+			tran_status_code = #{tranCode}
+		</set>
+		WHERE tran_no = #{tranNo}	
+	</update>
 		 
 	<!-- SQL : SELECT LIST -->
-	<select id="getPurchaseList" parameterType="search" resultMap="purchaseSelectMap">
-	  	SELECT *
-	  	FROM (SELECT inner_table.* , ROWNUM AS row_seq
-	  			FROM(SELECT buyer_id, reciver_name, reciver_phone, tran_status_code 
-					FROM purchase
-					ORDER BY tran_no) inner_table
-					WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select>
+<select id="getPurchaseList" parameterType="search" resultMap="purchaseSelectMap">
+    SELECT *
+    FROM (
+        SELECT inner_table.*, ROWNUM AS row_seq
+        FROM (
+            SELECT prod_no, buyer_id, receiver_name, receiver_phone, tran_no, payment_option,
+                   receiver_name, receiver_phone, demailaddr, dlvy_request, dlvy_date,
+                   tran_status_code, order_data
+            FROM TRANSACTION
+            ORDER BY order_data
+        ) inner_table
+        WHERE ROWNUM &lt; = #{endRowNum}
+    )
+    WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
 
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCount" parameterType="search" resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(SELECT prod_name, price, reg_date
+	  	FROM(SELECT buyer, receiver_name, receiver_phone, tran_status_code
 				FROM product) countTable						
 	 </select>
 	 
