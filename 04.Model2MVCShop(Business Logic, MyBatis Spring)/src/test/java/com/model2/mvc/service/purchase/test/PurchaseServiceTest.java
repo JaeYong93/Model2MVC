@@ -73,6 +73,7 @@ public class PurchaseServiceTest {
 		Search search = new Search();
 		search.setCurrentPage(1);
 		search.setPageSize(3);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map = purchaseService.getPurchaseList(search, "user12");
 		
