@@ -67,7 +67,7 @@
 	</update>
 		 
 	<!-- SQL : SELECT LIST -->
-	<select id="getPurchaseList" parameterType="search" resultMap="purchaseSelectMap">
+	<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
 		SELECT *
     	FROM (SELECT inner_table.*, ROWNUM AS row_seq
         	FROM (SELECT prod_no, buyer_id, receiver_name, receiver_phone, tran_status_code
