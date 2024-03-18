@@ -70,9 +70,15 @@
 	<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
 		SELECT *
     	FROM (SELECT inner_table.*, ROWNUM AS row_seq
-        	FROM (SELECT prod_no, buyer_id, receiver_name, receiver_phone, tran_status_code
-            	FROM TRANSACTION
-            	ORDER BY order_data) inner_table
+        	FROM (SELECT t.tran_no, t.prod_no, t.buyer_id, t.payment_option, t.receiver_name, t.receiver_phone,
+        	t.demailaddr, t.dlvy_request, t.tran_status_code, t.order_data, t.dlvy_date, t.count, p.prod_name, p.price
+        	FROM transaction t, product p
+      		<where>
+      			<if test="buyerId !=null">
+      			t.buyer_id = #{buyerId}
+      			</if>
+      		</where>  	 
+ 			) inner_table
         	WHERE ROWNUM &lt; = #{endRowNum} )
     	WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
@@ -80,10 +86,9 @@
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCount" parameterType="search" resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(SELECT prod_no, buyer_id, receiver_name, receiver_phone, tran_no, payment_option,
-                   receiver_name, receiver_phone, demailaddr, dlvy_request, dlvy_date,
-                   tran_status_code, order_data
-				FROM transaction) countTable					
+	  	FROM(SELECT tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone,
+	  		t.demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, count
+			FROM transaction) countTable					
 	 </select>
 	 
 </mapper>
