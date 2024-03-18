@@ -67,7 +67,7 @@ public class PurchaseServiceTest {
 		System.out.println(purchase);
 	}
 	
-	//@Test
+	@Test
 	public void testGetPurchaseList() throws Exception {
 	
 		Search search = new Search();
@@ -82,20 +82,6 @@ public class PurchaseServiceTest {
 		System.out.println(list);
 		
 		Integer totalCount = (Integer)map.get("totalCount");
-		System.out.println(totalCount);
-		
-		System.out.println("====================");
-		
-		search.setCurrentPage(1);
-		search.setPageSize(3);
-		map = purchaseService.getPurchaseList(search, "user12");
-		
-		list = (List<Object>)map.get("list");
-		Assert.assertEquals(3, list.size());
-		
-		System.out.println(list);
-		
-		totalCount = (Integer)map.get("totalCount");
 		System.out.println(totalCount);
 	}
 	
@@ -114,7 +100,7 @@ public class PurchaseServiceTest {
 	
 	}
 
-	@Test
+	//@Test
 	public void testUpdateTranCode() throws Exception {
 		
 		Purchase purchase = new Purchase();

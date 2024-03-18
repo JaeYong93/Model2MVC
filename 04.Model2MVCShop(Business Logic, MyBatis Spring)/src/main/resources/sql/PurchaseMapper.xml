@@ -67,27 +67,23 @@
 	</update>
 		 
 	<!-- SQL : SELECT LIST -->
-<select id="getPurchaseList" parameterType="search" resultMap="purchaseSelectMap">
-    SELECT *
-    FROM (
-        SELECT inner_table.*, ROWNUM AS row_seq
-        FROM (
-            SELECT prod_no, buyer_id, receiver_name, receiver_phone, tran_no, payment_option,
-                   receiver_name, receiver_phone, demailaddr, dlvy_request, dlvy_date,
-                   tran_status_code, order_data
-            FROM TRANSACTION
-            ORDER BY order_data
-        ) inner_table
-        WHERE ROWNUM &lt; = #{endRowNum}
-    )
-    WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
-</select>
+	<select id="getPurchaseList" parameterType="search" resultMap="purchaseSelectMap">
+		SELECT *
+    	FROM (SELECT inner_table.*, ROWNUM AS row_seq
+        	FROM (SELECT prod_no, buyer_id, receiver_name, receiver_phone, tran_status_code
+            	FROM TRANSACTION
+            	ORDER BY order_data) inner_table
+        	WHERE ROWNUM &lt; = #{endRowNum} )
+    	WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
 
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCount" parameterType="search" resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(SELECT buyer, receiver_name, receiver_phone, tran_status_code
-				FROM product) countTable						
+	  	FROM(SELECT prod_no, buyer_id, receiver_name, receiver_phone, tran_no, payment_option,
+                   receiver_name, receiver_phone, demailaddr, dlvy_request, dlvy_date,
+                   tran_status_code, order_data
+				FROM transaction) countTable					
 	 </select>
 	 
 </mapper>
