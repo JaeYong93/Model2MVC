@@ -2,9 +2,10 @@
 
 <html>
 <head>
-<title>열어본 상품 보기</title>
-</head>
 
+<title>열어본 상품 보기</title>
+
+</head>
 <body>
 	당신이 열어본 상품을 알고 있다
 <br>
@@ -13,29 +14,38 @@
 	request.setCharacterEncoding("euc-kr");
 	response.setCharacterEncoding("euc-kr");
 	
-	String history = null;
+	HttpSession sessionProd = request.getSession(true);
 	
-	Cookie[] cookies = request.getCookies();
+	String history = (String)sessionProd.getAttribute("history");
 	
-	if (cookies!=null && cookies.length > 0) {
-		for (int i = 0; i < cookies.length; i++) {
-			Cookie cookie = cookies[i];
-			if (cookie.getName().equals("history")) {
-				history = cookie.getValue();
+	String currentProduct = request.getParameter("prodNo");
+		
+		if(currentProduct != null && !currentProduct.isEmpty()){
+			
+			int prodNo = Integer.parseInt(currentProduct);
+			
+			if(history == null){
+				history = String.valueOf(prodNo);
+		
+			} else {
+				history += "|" + prodNo;
 			}
+			
+			sessionProd.setAttribute("history", history);
+			
 		}
+		
 		if (history != null) {
-			String[] h = history.split(",");
+			String[] h = history.split("\\|");
 			for (int i = 0; i < h.length; i++) {
 				if (!h[i].equals("null")) {
 %>
-	<a href="/getProduct.do?prodNo=<%=h[i]%>&menu=search"	target="rightFrame"><%=h[i]%></a>
+<a href="/getProduct.do?prodNo=<%=h[i]%>&menu=search"	target="rightFrame"><%=h[i]%></a>
 <br>
 <%
 				}
 			}
 		}
-	}
 %>
 
 </body>
