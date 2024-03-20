@@ -89,7 +89,7 @@
 						 			user_id LIKE '%'|| #{searchKeyword} || '%'
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 			user_name = LIKE '%'|| #{searchKeyword} || '%'
+						 			user_name LIKE '%'|| #{searchKeyword} || '%'
 								</if>
 							</where>
 						</if> ) countTable						
