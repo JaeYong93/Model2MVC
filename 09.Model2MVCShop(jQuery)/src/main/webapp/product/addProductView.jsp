@@ -6,7 +6,7 @@
 <title>상품등록</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
 <script type="text/javascript">
 <!--
 function fncAddProduct() {
@@ -33,7 +33,7 @@ function fncAddProduct() {
 		return;
 	}
 	
-	document.prodDetailForm.action ='/addProduct.do';
+	document.prodDetailForm.action ='/product/addProduct';
 	document.prodDetailForm.submit();
 }
 
@@ -174,8 +174,7 @@ function resetData() {
 					</td>
 					
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<!--  <a href="javascript:fncAddProduct();">등록</a>  -->
-						등록
+						<a href="javascript:fncAddProduct();">등록</a>
 					</td>
 					
 					<td width="14" height="23">
@@ -188,8 +187,7 @@ function resetData() {
 					</td>
 					
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<!--   <a href="javascript:resetData();">취소</a> -->
-						취소
+						<a href="javascript:resetData();">취소</a>
 					</td>
 					
 					<td width="14" height="23">
