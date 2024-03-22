@@ -2,6 +2,7 @@ package com.model2.mvc.view.product;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
@@ -15,6 +16,19 @@ public class GetProductAction extends Action {
 	
 		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
 
+		HttpSession sessionProd = request.getSession(true);
+		
+		String history = (String)sessionProd.getAttribute("history");
+		
+		if(history == null) {
+			history = String.valueOf(prodNo);
+		
+		} else {
+			
+			history += "|" + prodNo;
+		}
+		
+		sessionProd.setAttribute("history", history);		
 		
 		//겟파라미터menu가 manage라면 updateproductView.do 로가고
 		//겟파라미터menu가 search라면 readProductjsp로간다
