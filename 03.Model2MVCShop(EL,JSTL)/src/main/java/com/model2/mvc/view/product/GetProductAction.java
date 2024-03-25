@@ -1,5 +1,6 @@
 package com.model2.mvc.view.product;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,19 +17,23 @@ public class GetProductAction extends Action {
 	
 		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
 
-		HttpSession sessionProd = request.getSession(true);
-		
-		String history = (String)sessionProd.getAttribute("history");
-		
-		if(history == null) {
-			history = String.valueOf(prodNo);
-		
-		} else {
-			
-			history += "|" + prodNo;
-		}
-		
-		sessionProd.setAttribute("history", history);		
+	    Cookie[] cookies = request.getCookies();
+	    String history = null;
+	    if (cookies != null) {
+	        for (Cookie cookie : cookies) {
+	            if (cookie.getName().equals("history")) {
+	                history = cookie.getValue();
+	                break;
+	            }
+	        }
+	    }
+
+	    // 새로운 상품 조회 기록을 추가합니다.
+	    if (history == null) {
+	        history = String.valueOf(prodNo);
+	    } else {
+	        history += "|" + prodNo;
+	    }		
 		
 		//겟파라미터menu가 manage라면 updateproductView.do 로가고
 		//겟파라미터menu가 search라면 readProductjsp로간다
