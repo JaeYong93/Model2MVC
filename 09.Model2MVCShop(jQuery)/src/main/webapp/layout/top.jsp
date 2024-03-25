@@ -28,14 +28,13 @@
 				$(window.parent.frames["rightFrame"].document.location).attr("href","/user/login");
 			});
 			
-			
 			//==> login Event 楷搬贸府何盒
 			//==> DOM Object GET 3啊瘤 规过 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		 	$( "td[width='56']:contains('logout')" ).on("click" , function() {
 				//Debug..
 				//alert(  $( "td[width='56']:contains('logout')" ).html() );
 				$(window.parent.document.location).attr("href","/user/logout");
-			}); 
+			});
 		});	
 		 
 	</script>		
@@ -50,7 +49,7 @@
 	<td height="10" >&nbsp;</td>
   </tr>
   <tr>
-    <td width="800" height="30"><h2>Model2 MVC Shop</h2></td>
+    <td width="800" height="30"><h2>&nbsp;Model2 MVC Shop</h2></td>
   </tr>
   <tr>
     <td height="20" align="right" background="/images/img_bg.gif">
