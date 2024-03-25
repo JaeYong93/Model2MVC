@@ -17,12 +17,13 @@
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript">
 	
+		/*
 		function history(){
 			popWin = window.open("/history.jsp",
 														"popWin",
 														"left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 		}
-	
+		*/
 		//==> jQuery 적용 추가된 부분
 		 $(function() {
 			 
@@ -60,6 +61,14 @@
 		 	// 구매이력조회 Event
 		 	$(".Depth03:contains('구매이력조회')").on("click" , function() {
 		 		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listPurchase");
+		 	});
+		 	
+		 	// 최근 본 상품 Event
+		 	$(".Depth03:contains('최근 본 상품')").on("click" , function() {
+		 		//var popWindow = window.open("../history.jsp", "popWin",
+				//"left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+		 		// 팝업 아닌 새 페이지로 이동
+		 		$(window.parent.frames["rightFrame"].document.location).attr("href","../history.jsp");
 		 	});		 	
 		 	
 		});	
@@ -152,7 +161,8 @@
 			</tr>
 			<tr>
 				<td class="Depth03">
-					최근 본 상품
+				최근 본 상품
+				<!-- <a href="javascript:history()">최근 본 상품</a> -->
 				</td>
 			</tr>
 		</table>
