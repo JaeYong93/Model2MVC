@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,32 +43,15 @@ public class ProductController {
 	
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
-	
+
 	@RequestMapping("/addProduct.do")
-	public String addProduct(@ModelAttribute("product") Product product,
-								@RequestParam("file") MultipartFile file) throws Exception {
-		
-		if(!file.isEmpty()) {
-			try {
-				byte[] bytes = file.getBytes();
-				String temDir = "C:\\workspace\\01.Model2MVCShop(stu)\\src\\main\\webapp\\images\\uploadFiles";
-				Path path = Paths.get(temDir, File.separator + file.getOriginalFilename());
-				Files.write(path, bytes);
-				product.setFileName(file.getOriginalFilename());
-			} catch(IOException e) {
-				product.setFileName("../../images/empty.GIF");
-			}
-			
-			productService.addProduct(product);
-			return "forward:/product/getProduct.jsp";
-		}
-		/*
+	public String addProduct(@ModelAttribute("product") Product product) throws Exception {
+
 		System.out.println("/addProduct.do");
 		productService.addProduct(product);
 		return "forward:/product/getProduct.jsp";
-		*/
-		return "forward:/product/getProduct.jsp";
 	}
+
 	
 	@RequestMapping("/getProduct.do")
 	public String getProduct(@RequestParam("menu") String menu,
@@ -122,9 +107,21 @@ public class ProductController {
 	
 	@RequestMapping("/updateProduct.do")
 	public String updateProduct(@RequestParam("prodNo") int prodNo,
-								@ModelAttribute("product") Product product, Model model) throws Exception {
+								@ModelAttribute("product") Product product, Model model,
+								@RequestParam("fileName") MultipartFile file, HttpServletRequest request) throws Exception {
 		
 		System.out.println("/updateProduct.do");
+		if(!file.isEmpty()) {
+			try {
+				byte[] bytes = file.getBytes();
+				String temDir = request.getServletContext().getRealPath("images/uploadFiles");
+				Path path = Paths.get(temDir, File.separator + file.getOriginalFilename());
+				Files.write(path, bytes);
+				product.setFileName(file.getOriginalFilename());
+			} catch(IOException e) {
+				product.setFileName("../../images/empty.GIF");
+			}
+		}
 		
 		productService.updateProduct(product);
 
