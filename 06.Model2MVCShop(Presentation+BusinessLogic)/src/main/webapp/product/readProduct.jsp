@@ -113,7 +113,7 @@
 			가격
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.price}&nbsp;원</td>
+		<td class="ct_write01">${product.price}원</td>
 	</tr>
 	
 	<tr>
