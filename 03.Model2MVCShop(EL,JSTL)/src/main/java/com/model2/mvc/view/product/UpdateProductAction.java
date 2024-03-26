@@ -29,8 +29,8 @@ public class UpdateProductAction extends Action{
 		String menu = request.getParameter("menu");		
 		
 		if(FileUpload.isMultipartContent(request)) {
-			request.getServletContext().getRealPath("images/uploadFiles");
-			String temDir = "C:\\workspace\\01.Model2MVCShop(stu)\\src\\main\\webapp\\images\\uploadFiles";
+			String temDir = request.getServletContext().getRealPath("images/uploadFiles");
+			//String temDir = "C:\\Users\\hyt93\\git\\03.Model2MVCRefactorig\\03.Model2MVCShop(EL,JSTL)\\src\\main\\webapp\\images\\uploadFiles";
 			//String temDir = "/uploadFiles/";
 			
 			DiskFileUpload fileUpload = new DiskFileUpload();

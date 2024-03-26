@@ -25,7 +25,8 @@ public class AddProductAction extends Action {
 
 		if(FileUpload.isMultipartContent(request)) {
 			//request.getServletContext().getRealPath("images/uploadFiles");
-			String temDir = "C:\\workspace\\01.Model2MVCShop(stu)\\src\\main\\webapp\\images\\uploadFiles";
+			//System.out.println(request.getServletContext().getRealPath("images/uploadFiles"));
+			String temDir = request.getServletContext().getRealPath("images/uploadFiles");
 			//String temDir = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\01.Model2MVCShop(stu)\\images\\uploadFiles";
 			
 			//String temDir2 = "/uploadFiles/";
@@ -95,7 +96,7 @@ public class AddProductAction extends Action {
 			}
 			
 		} else {
-			System.out.println("인코딩 타입이 muultipart/form=data가 아닙니다");
+			System.out.println("인코딩 타입이 muultipart/form-data가 아닙니다");
 		}
 		
 		return "forward:/product/getProduct.jsp";		
