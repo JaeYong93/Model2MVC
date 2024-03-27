@@ -43,7 +43,7 @@
 			상품명 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class = "ct_write01"> ${product.prodName} </td>
+		<td class = "ct_write01">${product.prodName} </td>
 		
 	</tr>
 	
@@ -56,7 +56,7 @@
 			상품상세정보 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class = "ct_write01"> ${product.prodDetail} </td>
+		<td class = "ct_write01">${product.prodDetail} </td>
 		
 	</tr>
 	<tr>
@@ -96,7 +96,9 @@
 			상품이미지
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class = "ct_write01">${product.fileName} </td>
+		<td class = "ct_write01">
+			<img src = "/images/uploadFiles/${product.fileName}" alt="상품이미지">
+		</td>
 	</tr>
 	
 	<tr>
