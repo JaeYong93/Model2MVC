@@ -34,6 +34,11 @@ public class GetProductAction extends Action {
 	    } else {
 	        history += "|" + prodNo;
 	    }		
+
+	    // 쿠키에 히스토리 정보를 저장합니다.
+	    Cookie historyCookie = new Cookie("history", history);
+	    historyCookie.setMaxAge(24 * 60 * 60); // 쿠키 유효 시간을 설정합니다. 여기서는 하루로 설정했습니다.
+	    response.addCookie(historyCookie);
 		
 		//겟파라미터menu가 manage라면 updateproductView.do 로가고
 		//겟파라미터menu가 search라면 readProductjsp로간다
