@@ -9,7 +9,9 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -98,7 +100,9 @@ public class ProductController {
 
 	@RequestMapping("/getProduct.do")
 	public String getProduct(@RequestParam("menu") String menu,
-								@RequestParam("prodNo") int prodNo, Model model) throws Exception {
+								@RequestParam("prodNo") int prodNo, 
+								HttpServletRequest request,
+								HttpServletResponse response, Model model) throws Exception {
 		
 		System.out.println("/getProduct.do");
 		Product product = productService.getProduct(prodNo);
@@ -108,7 +112,30 @@ public class ProductController {
 		model.addAttribute("product", product);
 		
 		System.out.println(menu);
-		
+	
+	    Cookie[] cookies = request.getCookies();
+	    String history = null;
+	    if (cookies != null) {
+	        for (Cookie cookie : cookies) {
+	            if (cookie.getName().equals("history")) {
+	                history = cookie.getValue();
+	                break;
+	            }
+	        }
+	    }
+
+	    // 새로운 상품 조회 기록을 추가합니다.
+	    if (history == null) {
+	        history = String.valueOf(prodNo);
+	    } else {
+	        history += "|" + prodNo;
+	    }		
+
+	    // 쿠키에 히스토리 정보를 저장합니다.
+	    Cookie historyCookie = new Cookie("history", history);
+	    historyCookie.setMaxAge(24 * 60 * 60); // 쿠키 유효 시간을 설정합니다. 여기서는 하루로 설정했습니다.
+	    response.addCookie(historyCookie);
+	    
 		if(menu !=null) {
 			if(menu.equals("manage")) {
 				return "forward:/updateProductView.do";
@@ -139,6 +166,7 @@ public class ProductController {
         String manuDate = request.getParameter("manuDate");
         String prodName = request.getParameter("prodName");
         String prodDetail = request.getParameter("prodDetail");
+        int prodNo = Integer.parseInt(request.getParameter("prodNo"));
         String fileName = null;
 
         if (file != null && !file.isEmpty()) {
@@ -161,6 +189,7 @@ public class ProductController {
         product.setManuDate(manuDate);
         product.setProdName(prodName);
         product.setProdDetail(prodDetail);
+        product.setProdNo(prodNo);
         product.setPrice(Integer.parseInt(request.getParameter("price")));
         
         productService.updateProduct(product);

@@ -15,7 +15,7 @@
     		ㅇ @Controller annotation 선언된 Bean 만 Wiring
 		   ㅇ @Service / @Repository  annotation 선언된 Bean 은 Scan 제외 -->
 	<context:component-scan base-package="com.model2.mvc.web">
-		<context:include-filter 	type="annotation"		expression="org.springframework.stereotype.Controller" />
+		<context:include-filter 	type="annotation"	expression="org.springframework.stereotype.Controller" />
 		<context:exclude-filter 	type="annotation" 	expression="org.springframework.stereotype.Service"/>
 		<context:exclude-filter 	type="annotation" 	expression="org.springframework.stereotype.Repository"/>
 	</context:component-scan>            
@@ -47,6 +47,7 @@
 				
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"	>
 		<property name="maxUploadSize" value="10485760"/>
+		<property name="maxInMemorySize" value="10240"/>
 	</bean>	
 	
 	<!-- 	:: exception resolver  선언 :: 서술적 / 선언적 예외처리 
