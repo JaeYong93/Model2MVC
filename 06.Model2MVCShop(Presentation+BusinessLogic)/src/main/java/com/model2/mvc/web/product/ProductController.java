@@ -74,8 +74,10 @@ public class ProductController {
         if (file != null && !file.isEmpty()) {
             fileName = file.getOriginalFilename();
             try {
-                byte[] bytes = file.getBytes();
-                String temDir = request.getServletContext().getRealPath("images/uploadFiles");
+                byte[] bytes = file.getBytes(); 
+                String temDir = "C:\\Users\\hyt93\\git\\06.Model2MVCRefactoring\\06.Model2MVCShop(Presentation+BusinessLogic)\\src\\main\\webapp\\images\\uploadFiles";
+                		//request.getServletContext().getRealPath("images/uploadFiles");
+                System.out.println(request.getServletContext().getRealPath("images/uploadFiles"));	
                 
                 Path path = Paths.get(temDir, File.separator + fileName);                
                 Files.write(path, bytes);
@@ -173,7 +175,9 @@ public class ProductController {
             fileName = file.getOriginalFilename();
             try {
                 byte[] bytes = file.getBytes();
-                String temDir = request.getServletContext().getRealPath("images/uploadFiles");
+                String temDir = "C:\\Users\\hyt93\\git\\06.Model2MVCRefactoring\\06.Model2MVCShop(Presentation+BusinessLogic)\\src\\main\\webapp\\images\\uploadFiles";
+                
+                System.out.println(request.getServletContext().getRealPath("images/uploadFiles"));
                 
                 Path path = Paths.get(temDir, File.separator + fileName);                
                 Files.write(path, bytes);

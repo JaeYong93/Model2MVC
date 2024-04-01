@@ -35,9 +35,15 @@ public class PurchaseDaoImpl implements PurchaseDao{
 	}
 
 
-	@Override
 	public Purchase getPurchase(int tranNo) throws Exception {
-		return sqlSession.selectOne("PurchaseMapper.getPurchase", tranNo);
+	    Purchase purchase = sqlSession.selectOne("PurchaseMapper.getPurchase", tranNo);
+	    
+	    // paymentOption의 앞뒤 공백 제거
+	    if (purchase != null && purchase.getPaymentOption() != null) {
+	        purchase.setPaymentOption(purchase.getPaymentOption().trim());
+	    }
+	    
+	    return purchase;
 	}
 
 
@@ -53,8 +59,10 @@ public class PurchaseDaoImpl implements PurchaseDao{
 		List<Object> list = new ArrayList<Object>();
 		list.add(search);
 		list.add(userId);
+		
+		System.out.println("list :" +list);
 
-		System.out.println(sqlSession.selectList("PurchaseMapper.getPurchaseList", list));
+		System.out.println("aa : "+sqlSession.selectList("PurchaseMapper.getPurchaseList", list));
 		
 		return sqlSession.selectList("PurchaseMapper.getPurchaseList", list);
 	}

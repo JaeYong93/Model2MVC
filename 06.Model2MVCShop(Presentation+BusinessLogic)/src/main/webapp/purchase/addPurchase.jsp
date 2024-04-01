@@ -56,7 +56,7 @@
 	</tr>
 		<tr>
 		<td>구매요청사항</td>
-		<td>${purcahse.dlvyRequest}</td>
+		<td>${purchase.dlvyRequest}</td>
 		<td></td>
 	</tr>
 	<tr>

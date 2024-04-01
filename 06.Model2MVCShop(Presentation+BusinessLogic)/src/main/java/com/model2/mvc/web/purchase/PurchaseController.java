@@ -65,45 +65,51 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/addPurchase.do")
-	public ModelAndView addPurchase(@ModelAttribute("purchase") Purchase purchase, @RequestParam("userId") String userId, 
+	public ModelAndView addPurchase(@ModelAttribute("purchase") Purchase purchase, 
+									@RequestParam("userId") String userId, 
 									@RequestParam("prodNo") int prodNo) throws Exception {
 		
 		System.out.println("/addPurchase.do Ω√¿€");
 	
+		ModelAndView model = new ModelAndView();
+				
 		purchase.setBuyer(userService.getUser(userId));
 		purchase.setPurchaseProd(productService.getProduct(prodNo));
 		purchase.setTranCode("2");
 		purchaseService.addPurchase(purchase);
 		
-		System.out.println("purchase : "+purchase);
+		model.addObject("purchase", purchase);
+		model.setViewName("forward:/purchase/addPurchase.jsp");
 		
-		return new ModelAndView("forward:/purchase/addPurchase.jsp");
+		System.out.println("purchase : "+purchase);
+		System.out.println(model);
+		
+		return model;
+		//return new ModelAndView("forward:/purchase/addPurchase.jsp", "purchase" , purchase);
 	}
 
 	@RequestMapping("/getPurchase.do")
-	public ModelAndView getPurchase() throws Exception {
-		
-		
-		
-		ModelAndView model = new ModelAndView();
-		return model;
+	public ModelAndView getPurchase(@RequestParam("tranNo") int tranNo) throws Exception {
+
+		return new ModelAndView("forward:/purchase/getPurchase.jsp", "purchase", purchaseService.getPurchase(tranNo));
 		
 	}		
 
 	@RequestMapping("/updatePurchaseView.do")
-	public ModelAndView updatePurchaseView() throws Exception {
-		
-		ModelAndView model = new ModelAndView();
-		return model;
+	public ModelAndView updatePurchaseView(@RequestParam("tranNo") int tranNo) throws Exception {
+
+		return new ModelAndView("forward:/purchase/updatePurchase.jsp", "purchase", purchaseService.getPurchase(tranNo));
 		
 	}	
 	
 	@RequestMapping("/updatePurchase.do")
-	public ModelAndView updatePurchas() throws Exception {
+	public ModelAndView updatePurchas(@ModelAttribute("purchase") Purchase purchase, 
+										@RequestParam("tranNo") int tranNo) throws Exception {
 		
-		ModelAndView model = new ModelAndView();
-		return model;
-		
+		purchaseService.updatePurchase(purchase);
+			
+		return new ModelAndView("forward:/getPurchase.do","tranNo" , tranNo);
+		 
 	}		
 	
 	@RequestMapping("/listPurchase.do")
@@ -161,23 +167,33 @@ public class PurchaseController {
 		model.addObject("search", search);
 		model.setViewName("forward:/purchase/listSale.jsp");
 		
+		System.out.println(model);
+		
 		return model;
 	}
 	
 	@RequestMapping("/updateTranCode.do")
-	public ModelAndView updateTranCode() throws Exception {
+	public ModelAndView updateTranCode(@RequestParam("tranCode") String tranCode, @RequestParam("tranNo") int tranNo) throws Exception {
 		
-		ModelAndView model = new ModelAndView();
-		return model;
+		tranCode="4";
+		Purchase purchase = purchaseService.getPurchase(tranNo);
+		purchase.setTranCode(tranCode);
+		purchaseService.updateTranCode(purchase);
+		
+		return new ModelAndView("redirect:/listPurchase.do");
 		
 	}
 	
 	@RequestMapping("/updateTranCodeByProd.do")
-	public ModelAndView updateTranCodeByProd() throws Exception {
+	public ModelAndView updateTranCodeByProd(@RequestParam("currentPage") int currentPage, @RequestParam("prodNo") int prodNo, 
+												@RequestParam("tranCode") String tranCode) throws Exception {
 		
-		ModelAndView model = new ModelAndView();
-		return model;
-		
+		tranCode = "3";
+		Purchase purchase = purchaseService.getPurchaseByProd(prodNo);
+		purchase.setTranCode(tranCode);
+		purchaseService.updateTranCode(purchase);
+
+		return new ModelAndView("redirect:/listProduct.do?menu=manage&currentPapge="+currentPage);
 	}	
 	
 }

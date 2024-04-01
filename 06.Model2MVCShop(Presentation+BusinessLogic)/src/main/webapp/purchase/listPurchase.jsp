@@ -68,13 +68,13 @@
 			</td>
 			<td></td>
 		
-			<td align="left">
+			<td align="center">
 				<a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
 			</td>
 			<td></td>
-			<td align="left">${purchase.buyer.userName}</td>
+			<td align="center">${purchase.receiverName}</td>
 			<td></td>
-			<td align="left">${purchase.buyer.phone}</td>
+			<td align="center">${purchase.buyer.phone}</td>
 			<td></td>
 			<td align="left">
 			<c:if test = "${purchase.tranCode == '2'}">
