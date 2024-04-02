@@ -13,7 +13,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="updatePurchase" method="post" action="/updatePurchase.do?tranNo=${purchase.tranNo}" >
+<form name="updatePurchase" method="post" action="/purchase/updatePurchase?tranNo=${purchase.tranNo}" >
 
 <table border=1>
 
@@ -47,9 +47,8 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			{purchase.buyer.userId}
+			${user.userId}
 		</td>
-		<input type = "hidden" name = "buyerId" value = "${purchase.buyer.userId}"/>
 	</tr>
 	
 	<tr>
@@ -63,8 +62,8 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
       		<select name="paymentOption" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20">
-				<option value="1" ${purchase.paymentOption.trim eq '1'} ? "selected":""%>>현금구매</option>
-				<option value="2" ${purchase.paymentOption.trim eq '2'} ? "selected":""%>>>신용구매</option>
+				<option value="1"${purchase.paymentOption eq '1' ? 'selected' : ''}>현금구매</option>
+				<option value="2"${purchase.paymentOption eq '2' ? 'selected' : ''}>신용구매</option>
     		</select>			
 		</td>
 	</tr>
@@ -79,7 +78,7 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-		 <input type = "text" name = "receiverName" value = "${purchase.receiverName}
+		 <input type = "text" name = "receiverName" value = "${purchase.receiverName}"
 		 	class = "ct_input_g" style = "width:100px; height:19px" maxLength="20"/>
 		</td>
 	</tr>
@@ -94,7 +93,7 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-		 <input type = "text" name = "receiverPhone" value = "${purchase.buyer.phone}"
+		 <input type = "text" name = "receiverPhone" value = "${purchase.receiverPhone}"
 		 	class = "ct_input_g" style = "width:100px; height:19px" maxLength="20"/>
 		</td>
 	</tr>
@@ -139,7 +138,7 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-		 <input type = "text" readonly="readonly" name = "dlvyDate" 
+		 <input type = "text" readonly="readonly" name = "dlvyDate" va,ue= "${purchase.dlvyDate}"
 		 	class = "ct_input_g" style = "width:100px; height:19px" maxLength="20"/>
 			&nbsp;<img src="../images/ct_icon_date.gif" width= "15" height= "15"
 			onclick = "show_calendar('document.updatePurchase.dlvyDate', document.updatePurchase.dlvyDate.value)"/>

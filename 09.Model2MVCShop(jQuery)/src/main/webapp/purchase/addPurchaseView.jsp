@@ -24,9 +24,10 @@ function fncAddPurchase() {
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="addPurchase"  method="post" action="/addPurchase.do">
+<form name="addPurchase"  method="post" action="/purchase/addPurchase">
 
 <input type = "hidden" name = "prodNo" value = "${param.prodNo}"/>
+<input type = "hidden" name = "userId" value = "${user.userId}"/>
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -155,8 +156,8 @@ function fncAddPurchase() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
       		<select name="paymentOption" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20">
-				<option value="1" ${purchase.paymentOption.trim eq '1'} ? "selected":""%>현금구매</option>
-				<option value="2" ${purchase.paymentOption.trim eq '2'} ? "selected":""%>신용구매</option>
+				<option value="1"${purchase.paymentOption eq '1' ? 'selected' : ''}>현금구매</option>
+				<option value="2"${purchase.paymentOption eq '2' ? 'selected' : ''}>신용구매</option>
     		</select>
 		</td>
 	</tr>

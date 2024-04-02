@@ -60,7 +60,7 @@
 		 	
 		 	// 구매이력조회 Event
 		 	$(".Depth03:contains('구매이력조회')").on("click" , function() {
-		 		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listPurchase");
+		 		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/listPurchase");
 		 	});
 		 	
 		 	// 최근 본 상품 Event
