@@ -141,7 +141,7 @@ function fncGetProductList(currentPage) {
                 		</c:when>
                 		<c:when test="${product.proTranCode eq '2'}">
                     		<td align="left">구매완료
-                    		<a href="/purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=${product.proTranCode}">배송하기</a></td>
+                    		<a href="/purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=${product.proTranCode}&currentPage=${param.currentPage}">배송하기</a></td>
                 		</c:when>
                 		<c:when test="${product.proTranCode eq '3'}">
                   	  		<td align="left">배송중</td>

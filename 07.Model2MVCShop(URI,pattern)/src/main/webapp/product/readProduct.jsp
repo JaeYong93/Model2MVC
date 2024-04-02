@@ -70,7 +70,9 @@
 			상품이미지 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.fileName} </td>
+		<td class="ct_write01">
+			<img src = "/images/uploadFiles/${product.fileName}" alt="상품이미지">
+		</td>
 	</tr>
 	
 	<tr>
@@ -144,7 +146,7 @@
 							</td>
 							<td background="/images/ct_btnbg02.gif" 
 								class="ct_btn01" style="padding-top:3px;">
-								<a href="/product/addPurchaseView?prodNo=${param.prodNo}">구매</a>
+								<a href="/purchase/addPurchaseView?prodNo=${param.prodNo}">구매</a>
 							</td>
 							<td width="14" height="23">
 								<img src="/images/ct_btnbg03.gif" width="14" height="23">
