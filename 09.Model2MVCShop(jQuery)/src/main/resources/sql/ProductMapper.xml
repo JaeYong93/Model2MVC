@@ -14,6 +14,7 @@
 		<result property="price" 		column="price" 			 jdbcType="INTEGER"/>
 		<result property="fileName" 	column="image_file" 	 jdbcType="VARCHAR"/>
 		<result property="regDate" 		column="reg_date" 		 jdbcType="DATE"/>
+		<result property="proTranCode"	column="proTranCode" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
@@ -47,20 +48,20 @@
 		 
 	<!-- SQL : SELECT LIST -->
 	<select id="getProductList" parameterType="search" resultMap="productSelectMap">
-	  	SELECT *
 	  	FROM (SELECT inner_table.* , ROWNUM AS row_seq
-	  			FROM(SELECT prod_no, prod_name, price, reg_date
-					FROM product
+	  			FROM(SELECT prod_no, prod_name, price, reg_date,
+	  					(SELECT TRIM(t.tran_status_code) from transaction t WHERE p.prod_no = t.prod_no) AS proTranCode
+	  						FROM product p
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">
-									prod_no = #{searchKeyword}
+									prod_no LIKE '%' || #{searchKeyword} || '%'
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-									prod_name = #{searchKeyword}
+									prod_name LIKE '%' || #{searchKeyword} || '%'
 								</if>
 								<if test="searchCondition == 2 and searchKeyword !='' ">
-									price = #{searchKeyword}
+									price LIKE '%' || #{searchKeyword} || '%'
 								</if>													
 							</where>
 						</if>
