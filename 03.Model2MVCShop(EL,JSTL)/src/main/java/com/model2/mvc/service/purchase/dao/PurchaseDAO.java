@@ -50,10 +50,10 @@ public class PurchaseDAO {
 			purchase.setDlvyDate(rs.getString("dlvy_date"));
 			purchase.setDlvyRequest(rs.getString("dlvy_request"));
 			purchase.setOrderDate(rs.getDate("order_data"));
-			purchase.setPaymentOption(rs.getString("payment_option"));
+			purchase.setPaymentOption(rs.getString("payment_option").trim());
 			purchase.setReceiverName(rs.getString("receiver_name"));
 			purchase.setReceiverPhone(rs.getString("receiver_phone"));
-			purchase.setTranCode(rs.getString("tran_status_code"));
+			purchase.setTranCode(rs.getString("tran_status_code").trim());
 
 		}	
 		con.close();
@@ -202,7 +202,7 @@ public class PurchaseDAO {
 			
 		pStmt.setInt(1, purchase.getPurchaseProd().getProdNo());
 		pStmt.setString(2, purchase.getBuyer().getUserId());
-		pStmt.setString(3, purchase.getPaymentOption());
+		pStmt.setString(3, purchase.getPaymentOption().trim());
 		pStmt.setString(4, purchase.getReceiverName());
 		pStmt.setString(5, purchase.getReceiverPhone());
 		pStmt.setString(6, purchase.getDlvyAddr());
@@ -223,7 +223,7 @@ public class PurchaseDAO {
 		
 		PreparedStatement pStmt = con.prepareStatement(sql);
 
-		pStmt.setString(1, purchase.getPaymentOption());
+		pStmt.setString(1, purchase.getPaymentOption().trim());
 		pStmt.setString(2, purchase.getReceiverName());
 		pStmt.setString(3, purchase.getReceiverPhone());
 		pStmt.setString(4, purchase.getDlvyAddr());
