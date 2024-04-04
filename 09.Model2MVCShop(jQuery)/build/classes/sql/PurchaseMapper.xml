@@ -7,8 +7,8 @@
 <mapper namespace="PurchaseMapper">
  	
 	<resultMap id="purchaseSelectMap" type="purchase">
-		<result property="tranNo"		 		column="tran_no"		  jdbcType="INTEGER"/>
-		<result property="purchaseProd.prodNo"	column="prod_no"		  jdbcType="INTEGER"/>
+		<result property="tranNo"		 		column="tran_no"		  jdbcType="NUMERIC"/>
+		<result property="purchaseProd.prodNo"	column="prod_no"		  jdbcType="NUMERIC"/>
 		<result property="buyer.userId" 		column="buyer_id"		  jdbcType="VARCHAR"/>
 		<result property="paymentOption" 		column="payment_option"   jdbcType="VARCHAR"/>		
 		<result property="receiverName"  		column="receiver_name"    jdbcType="VARCHAR"/>
@@ -27,7 +27,7 @@
 		INTO transaction(tran_no, prod_no, buyer_id, payment_option, receiver_name,
 		receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date) 
 		VALUES(seq_transaction_tran_no.nextval, #{purchaseProd.prodNo}, #{buyer.userId}, 
-				#{paymentOption:VARCHAR}, #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR}, 
+				TRIM(#{paymentOption}), #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR}, 
 				#{dlvyAddr:VARCHAR}, #{dlvyRequest:VARCHAR}, 2, SYSDATE, #{dlvyDate:DATE})		
 	 </insert>
 	 
@@ -51,7 +51,7 @@
 		<set>
   			<if test ="paymentOption != null">payment_option = #{paymentOption}, </if>
   			<if test = "receiverName != null">receiver_name = #{receiverName}, </if>
-  			<if test = "receiverPhone != null">reciver_phone = #{reciverPhonge}, </if>
+  			<if test = "receiverPhone != null">receiver_phone = #{receiverPhone}, </if>
   			<if test = "dlvyAddr != null">demailaddr = #{dlvyAddr}, </if>
  			<if test = "dlvyRequest != null">dlvy_request = #{dlvyRequest}, </if>
 			<if test = "dlvyDate != null">dlvy_date = #{dlvyDate} </if>
@@ -68,7 +68,7 @@
 	</update>
 		 
 	<!-- SQL : SELECT LIST -->
-	<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
+<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
     <![CDATA[
         SELECT * FROM (
             SELECT t.tran_no, t.prod_no, u.user_id AS buyer_id, TRIM(t.payment_option) payment_option, t.receiver_name, t.receiver_phone,
@@ -78,14 +78,15 @@
             ORDER BY t.tran_no )
         WHERE row_seq BETWEEN #{list[0].startRowNum} AND #{list[0].endRowNum}
     ]]>
-
+</select>
+<!-- 	<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap"> -->
 <!-- 		SELECT purchase.* -->
 <!-- 		FROM(SELECT ROW_NUMBER() OVER(order by user_id) rn, t.tran_no, u.user_id, -->
-<!-- 			NVL(t.tran_status_code,'') tran_code, COUNT(*)OVER() count -->
+<!-- 			NVL(t.tran_status_code,'') tran_status_code, COUNT(*)OVER() count -->
 <!-- 				FROM users u, transaction t -->
 <!-- 				WHERE u.user_id = t.buyer_id AND u.user_id = #{list[1]}) purchase -->
 <!-- 		WHERE rn BETWEEN #{list[0].startRowNum} AND #{list[0].endRowNum} -->
-	</select>		
+<!-- 	</select>		 -->
 		
     	<!-- FROM (SELECT inner_table.*, ROWNUM AS row_seq
         	FROM (SELECT tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone,
