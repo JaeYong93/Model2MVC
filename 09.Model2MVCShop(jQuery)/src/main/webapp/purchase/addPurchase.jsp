@@ -10,7 +10,7 @@
 
 <body>
 
-다음과 같이 구매가 되었습니다.
+다음과 같이 구매가 완료 되었습니다.
 
 <table border=1>
 	<tr>
@@ -56,7 +56,7 @@
 	</tr>
 		<tr>
 		<td>구매요청사항</td>
-		<td>${purcahse.dlvyRequest}</td>
+		<td>${purchase.dlvyRequest}</td>
 		<td></td>
 	</tr>
 	<tr>

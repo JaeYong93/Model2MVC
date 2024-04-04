@@ -9,25 +9,70 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script type="text/javascript">
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
 
-function fncGetProductList(currentPage) {
+	function fncGetProductList(currentPage) {
+		
+	    var menu = "${param.menu}";
+	    $("#currentPage").val(currentPage);
+	    $("#menu").val(menu);
+	    $("form").attr("method" , "POST").attr("action" , "/product/listProduct").submit();
+	}
 	
-	var menu = "${param.menu}";
-	document.getElementById("currentPage").value = currentPage;
-	document.getElementById("menu").value = menu;
-	document.detailForm.submit();
-}
-</script>
+	$(function() {
+		
+		//상품명 Click Event
+		$(".ct_list_pop td:nth-child(3)").on("click", function() {
+		
+			var prodNo = $(this).data('prodno');
+			var menu = "${menu}";
+			
+			alert("/product/getProduct?prodNo="+prodNo+"&menu="+menu);
+			if(menu == 'search') {
+				$("input[name='prodNo']").val(prodNo);
+				$("form").attr("method", "POST").attr("action", "/product/getProduct?prodNo="+prodNo+"&menu=search").submit();
+			} else if(menu == 'manage') {
+				$("input[name='prodNo']").val(prodNo);
+				$("form").attr("method", "Multipart").attr("action", "/product/getProduct").submit();
+			}
+
+		});
+		
+		$(".ct_list_pop td:nth-child(9):contains('구매완료 배송하기')").on("click", function() {
+			var prodNo = $(this).data('prodno');
+			
+			alert("/purchase/updateTranCodeByProd?prodNo="+prodNo+"&tranCode=2");
+			$("form").attr("method", "POST").attr("action", "/purchase/updateTranCodeByProd?prodNo="+prodNo+
+						"&tranCode=2&currentPage="+${resultPage.currentPage}).submit();
+		});
+		
+		///purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=${product.proTranCode}
+		
+		// 상품명 색상 변경
+		$(".ct_list_pop td:nth-child(3)").css("color" , "orange");
+
+		// 현재상태 섹상 변경
+		$(".ct_list_pop td:nth-child(9)").css("color" , "red");		
+		
+		//검색 Event
+		$("td.ct_btn01:contains('검색')" ).on("click" , function() {
+			fncGetProductList(1);
+		});
+		
+	 });		
+	</script>
+	
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/product/listProduct" method="post">
+<form name="detailForm">
 
-<input type = "hidden" id = "menu" name = "menu" value = "">
+<input type = "hidden" id = "prodNo" name = "prodNo">
+<input type = "hidden" id = "menu" name = "menu" value = "${param.menu}">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 
@@ -78,7 +123,7 @@ function fncGetProductList(currentPage) {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetProductList('1');">검색</a>
+						검색
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -116,14 +161,16 @@ function fncGetProductList(currentPage) {
 	 		<td align="center">${ i }</td>
 	 		<td></td>
 	 		<c:if test = "${param.menu != null && param.menu eq 'manage'}">
-	 			<td align = "left">
-	 				<a href = "/product/getProduct?prodNo=${product.prodNo}&menu=manage">${product.prodName}</a>
+	 			<td align = "left" data-prodNo = "${product.prodNo}">
+	 				${product.prodName}
+<%-- 	 				<a href = "/product/getProduct?prodNo=${product.prodNo}&menu=manage">${product.prodName}</a> --%>
 	 			</td>
 	 		</c:if>
 	 		
 	 		<c:if test = "${param.menu != null && param.menu eq 'search'}">
-	 			<td align = "left">
-	 				<a href = "/product/getProduct?prodNo=${product.prodNo}&menu=search">${product.prodName}</a>
+	 			<td align = "left" data-prodNo = "${product.prodNo}">
+	 				${product.prodName}
+<%-- 	 				<a href = "/product/getProduct?prodNo=${product.prodNo}&menu=search">${product.prodName}</a> --%>
 	 			</td>
 	 		</c:if>	
 	 	<td></td>
@@ -140,8 +187,9 @@ function fncGetProductList(currentPage) {
                     		<td align="left">판매중</td>
                 		</c:when>
                 		<c:when test="${product.proTranCode eq '2'}">
-                    		<td align="left">구매완료
-                    		<a href="/purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=${product.proTranCode}">배송하기</a></td>
+                    		<td align="left" data-prodNo = "${product.prodNo}">구매완료 배송하기</td>
+                    		
+<%--                     		<a href="/purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=${product.proTranCode}">배송하기</a></td> --%>
                 		</c:when>
                 		<c:when test="${product.proTranCode eq '3'}">
                   	  		<td align="left">배송중</td>

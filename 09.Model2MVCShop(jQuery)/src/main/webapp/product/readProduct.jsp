@@ -9,6 +9,30 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+	
+		//구매 Click Event
+		$(function() {
+			$("td.ct_btn01:contains('구매')").on("click", function() {
+				self.location = "/purchase/addPurchaseView?prodNo=${param.prodNo}";	
+			});
+		});	
+		
+		//이전 Click Event
+		$(function() {
+			$("td.ct_btn01:contains('이전')").on("click", function() {
+				history.back();	
+			});
+		});		
+
+		//확인 Click Event
+		$(function() {
+			$("td.ct_btn01:contains('확인')").on("click", function() {
+				self.location = "product/listProduct?menu=manage";
+			});
+		});		
+	</script>							
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
@@ -70,7 +94,9 @@
 			상품이미지 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.fileName} </td>
+		<td class="ct_write01">
+			<img src = "/images/uploadFiles/${product.fileName}" alt="상품이미지">
+		</td>
 	</tr>
 	
 	<tr>
@@ -144,7 +170,7 @@
 							</td>
 							<td background="/images/ct_btnbg02.gif" 
 								class="ct_btn01" style="padding-top:3px;">
-								<a href="/product/addPurchaseView?prodNo=${param.prodNo}">구매</a>
+								구매
 							</td>
 							<td width="14" height="23">
 								<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -157,7 +183,7 @@
 							</td>
 							<td background="/images/ct_btnbg02.gif" 
 								class="ct_btn01" style="padding-top:3px;">
-								<a href="javascript:history.go(-1);">이전</a>
+								이전
 							</td>
 							<td width="14" height="23">
 								<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -169,7 +195,7 @@
 								<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 							</td>
 							<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-								<a href="/product/listProduct?menu=manage">확인</a>
+								확인
 							</td>
 							<td width="14" height="23">
 								<img src="/images/ct_btnbg03.gif" width="14" height="23">
