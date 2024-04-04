@@ -7,21 +7,22 @@
 <mapper namespace="ProductMapper">
  	
 	<resultMap id="productSelectMap" type="product">
-		<result property="prodNo"		column="prod_no"		 jdbcType="INTEGER"/>
-		<result property="prodName"		column="prod_name"		 jdbcType="VARCHAR"/>
-		<result property="prodDetail" 	column="prod_detail"	 jdbcType="VARCHAR"/>
-		<result property="manuDate" 	column="manufacture_day" jdbcType="VARCHAR"/>
-		<result property="price" 		column="price" 			 jdbcType="INTEGER"/>
-		<result property="fileName" 	column="image_file" 	 jdbcType="VARCHAR"/>
-		<result property="regDate" 		column="reg_date" 		 jdbcType="DATE"/>
+		<result property="prodNo"		column="prod_no"		  jdbcType="INTEGER"/>
+		<result property="prodName"		column="prod_name"		  jdbcType="VARCHAR"/>
+		<result property="prodDetail" 	column="prod_detail"	  jdbcType="VARCHAR"/>
+		<result property="manuDate" 	column="manufacture_day"  jdbcType="VARCHAR"/>
+		<result property="price" 		column="price" 			  jdbcType="INTEGER"/>
+		<result property="fileName" 	column="image_file" 	  jdbcType="VARCHAR"/>
+		<result property="regDate" 		column="reg_date" 		  jdbcType="DATE"/>
+		<result property="proTranCode"	column="proTranCode" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
 	<insert id="addProduct" parameterType="product">
 	 	INSERT
 		INTO product(prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date) 
-		VALUES(seq_product_prod_no.nextval, #{prodName}, #{prodDetail:VARCHAR}, REPLACE(#{manuDate:VARCHAR}, '-', ''), 
-				#{price:INTEGER}, #{fileName:VARCHAR}, SYSDATE)
+		VALUES(seq_product_prod_no.nextval, #{prodName}, #{prodDetail:VARCHAR}, 
+				REPLACE(#{manuDate:VARCHAR}, '-', ''), #{price:INTEGER}, #{fileName:VARCHAR}, SYSDATE)
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
@@ -55,13 +56,13 @@
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">
-									prod_no LIKE '%' || #{searchKeyword} ||'%'
+									prod_no LIKE '%' || #{searchKeyword} || '%'
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-									prod_name LIKE '%' || #{searchKeyword} ||'%'
+									prod_name LIKE '%' || #{searchKeyword} || '%'
 								</if>
 								<if test="searchCondition == 2 and searchKeyword !='' ">
-									price LIKE '%' || #{searchKeyword} ||'%'
+									price LIKE '%' || #{searchKeyword} || '%'
 								</if>													
 							</where>
 						</if>
@@ -73,18 +74,18 @@
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCount" parameterType="search" resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(SELECT prod_no, price, reg_date
+	  	FROM(SELECT prod_name, price, reg_date
 				FROM product
 					<if test="searchCondition != null">
 						<where>
 							<if test="searchCondition == 0 and searchKeyword !='' ">
-								prod_no LIKE '%' || #{searchKeyword} ||'%'
+								prod_no LIKE '%' || #{searchKeyword} || '%'
 							</if>
 							<if test="searchCondition == 1 and searchKeyword !='' ">
-								prod_name LIKE '%' || #{searchKeyword} ||'%'
+								prod_name LIKE '%' || #{searchKeyword} || '%'
 							</if>
 							<if test="searchCondition == 2 and searchKeyword !='' ">
-								price LIKE '%' || #{searchKeyword} ||'%'
+								price LIKE '%' || #{searchKeyword} || '%'
 							</if>
 						</where>
 					</if> ) countTable						
