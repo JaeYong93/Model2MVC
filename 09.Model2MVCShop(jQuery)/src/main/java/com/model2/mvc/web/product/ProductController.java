@@ -64,7 +64,8 @@ public class ProductController {
             fileName = file.getOriginalFilename();
             try {
                 byte[] bytes = file.getBytes();
-                String temDir = request.getServletContext().getRealPath("images/uploadFiles");
+                String temDir = "C:\\Users\\hyt93\\git\\09.Model2MVCRefactoring\\09.Model2MVCShop(jQuery)\\src\\main\\webapp\\images\\uploadFiles";
+                //String temDir = request.getServletContext().getRealPath("images/uploadFiles");
                 
                 Path path = Paths.get(temDir, File.separator + fileName);                
                 Files.write(path, bytes);

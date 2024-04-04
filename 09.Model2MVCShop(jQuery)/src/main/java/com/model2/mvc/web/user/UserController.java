@@ -63,7 +63,7 @@ public class UserController {
 	}
 	
 
-	@RequestMapping( value="getUser", method=RequestMethod.GET )
+	@RequestMapping( value="getUser")
 	public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
 		
 		System.out.println("/user/getUser : GET");

@@ -9,12 +9,42 @@
 <title>구매 목록조회</title>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script type="text/javascript">
-	function fncGetPurchaseList(currentPage) {	
-		document.getElementById("currentPage").value = currentPage;
-		document.detailForm.submit();
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+	function fncGetPurchaseList(currentPage) {
+	    $("#currentPage").val(currentPage);
+	    $("form").attr("method" , "POST").attr("action" , "/purchase/listPurchase").submit();
 	}
-</script>
+	
+	$(function() {
+		$(".ct_list_pop td:nth-child(1)").on("click", function() {
+			var tranNo = $(this).data('tranno');
+			$("form").attr("method", "POST").attr("action", "/purchase/getPurchase?tranNo="+tranNo).submit();
+		});
+	});
+
+
+	$(function() {
+		$(".ct_list_pop td:nth-child(3)").on("click", function() {
+			var userId = $(this).data('userid');
+			alert("/user/getUser?userId="+userId);
+			$("form").attr("method", "POST").attr("action", "/user/getUser?userId="+userId).submit();
+		});
+	});	
+	
+	$(function() {
+		
+		$(".ct_list_pop td:nth-child(11):contains('도착확인')").on("click", function() {
+		
+			var tranNo = $(this).data('tranno');
+			alert(tranNo);
+			$("form").attr("method", "POST").attr("action", "/purchase/updateTranCode?tranNo="+tranNo+"&tranCode=3").submit();	
+		});	
+
+		$(".ct_list_pop td:nth-child(11)").css("color" , "green");
+	});
+	
+	</script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
@@ -22,6 +52,8 @@
 <div style="width: 98%; margin-left: 10px;">
 
 <form name="detailForm" action="/purchase/listPurchase" method="post">
+
+<input type = "hidden" name="tranNo" value ="${purchase.tranNo}">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -63,13 +95,13 @@
 	<c:forEach var = "purchase" items = "${list}">
 		<c:set var ="i" value = "${i+1}"/>
 		<tr class="ct_list_pop">
-			<td align="center">
-			<a href="/purchase/getPurchase?tranNo=${purchase.tranNo}">${i} </a>
+			<td align="center" data-tranNo = "${purchase.tranNo}">
+				${i}
 			</td>
 			<td></td>
 		
-			<td align="center">
-				<a href="/user/getUser?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
+			<td align="center" data-userId = "${purchase.buyer.userId}">
+				${purchase.buyer.userId}
 			</td>
 			<td></td>
 			<td align="center">${purchase.receiverName}</td>
@@ -88,9 +120,9 @@
 			</c:if>										
 			</td>
 			<td></td>
-			 <td align="left">
+			 <td align="left" data-tranNo = "${purchase.tranNo}">
 			 	<c:if test = "${purchase.tranCode == '3'}">
-			 	<a href="updateTranCode?tranNo=${purchase.tranNo}&tranCode=${purchase.tranCode}">물건도착</a>
+					도착확인
 				</c:if>				 
 			 </td>	
 		<td></td>
