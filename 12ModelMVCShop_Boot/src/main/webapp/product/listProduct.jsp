@@ -2,7 +2,7 @@
 <%@ page pageEncoding="EUC-KR"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
- <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 
@@ -143,22 +143,8 @@
 						}
 					});
 				}
-		
-		// 검색 EVent
-		$(function() {
-			$( "button.btn.btn-default" ).on("click" , function() {
-				sessionStorage.setItem('orderByPrice', "");
-				fncGetProductList(1);
-			});
 			
-			// 검색 엔터 허용 Event
-			$("input[type='text']").keypress(function(event) {
-				if(event.which === 13) {
-					fncGetProductList(1);
-				}
-			});
-		});		
-	
+		//가격 정렬 Event
 		$(function() {
 		    var orderByPrice = sessionStorage.getItem('orderByPrice');
 		    if (orderByPrice) {
@@ -166,6 +152,7 @@
 		    }
 		});		
 		
+		// 가격 내림차순
 		$(function() {
 			$("#downprice").on("click" , function() {
 				$("input[name='searchOrderByPrice']").val(1);
@@ -174,6 +161,7 @@
 			});
 		});
 
+		// 가격 오름차순
 		$(function() {
 			$("#upprice").on("click" , function() {
 				$("input[name='searchOrderByPrice']").val(2);
@@ -182,6 +170,22 @@
 			});
 		});            
 
+		// 검색 EVent
+		$(function() {
+			$( "button.btn.btn-default" ).on("click" , function() {
+				$("input[name='searchOrderByPrice']").val("");
+				sessionStorage.setItem('orderByPrice', "");
+				fncGetProductList(1);
+			});
+			
+			// 검색 엔터 허용
+			$("input[type='text']").keypress(function(event) {
+				if(event.which === 13) {
+					fncGetProductList(1);
+				}
+			});
+		});		
+		
 		// 페이지 이동 Event
 		function fncGetProductList(currentPage) {
 			var menu = "${param.menu}";

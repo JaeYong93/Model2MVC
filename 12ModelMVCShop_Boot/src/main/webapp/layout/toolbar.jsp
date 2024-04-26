@@ -76,10 +76,8 @@
 	                         <c:if test="${sessionScope.user.role == 'user'}">
 	                           <li><a href="#">구매이력조회</a></li>
 	                         </c:if>
-	                         
+	                         <li><a href="#">찜한상품</a></li>	                         
 	                         <li><a href="#">최근본상품</a></li>
-	                         <li class="divider"></li>
-	                         <li><a href="#">추가예정</a></li>
 	                     </ul>
 	                 </li>
 	                 
@@ -100,7 +98,7 @@
    	
    	<script type="text/javascript">
 	
-		//============= logout Event  처리 =============	
+		// logout Event
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		 	$("a:contains('로그아웃')").on("click" , function() {
@@ -109,7 +107,7 @@
 			}); 
 		 });
 		
-		//============= 회원정보조회 Event  처리 =============	
+		// 회원정보조회 Event
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		 	$("a:contains('회원목록조회')").on("click" , function() {
@@ -118,7 +116,7 @@
 			}); 
 		 });
 		
-		//=============  개인정보조회회 Event  처리 =============	
+		// 개인정보조회회 Event
 	 	$( "a:contains('개인정보조회')" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","/user/getUser?userId=${sessionScope.user.userId}");
@@ -143,6 +141,11 @@
 	 	$( "a:contains('구매이력조회')" ).on("click" , function() {
 			$(self.location).attr("href","/purchase/listPurchase");
 		});
+
+		// 찜한상품 Event
+	 	$( "a:contains('찜한상품')" ).on("click" , function() {
+			$(self.location).attr("href","../product/likeProduct.jsp");
+		});			
 		
 		// 최근본상품 Event
 	 	$( "a:contains('최근본상품')" ).on("click" , function() {

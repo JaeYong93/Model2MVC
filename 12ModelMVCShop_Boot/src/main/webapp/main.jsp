@@ -204,12 +204,8 @@
 	
    			</div>
    		</div>
-      <!-- Main jumbotron for a primary marketing message or call to action -->
 
     </div>
-
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   : container part..... -->
-
 
 </body>
 
