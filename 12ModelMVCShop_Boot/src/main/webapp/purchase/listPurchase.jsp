@@ -105,6 +105,7 @@
 
 		h4 {
 			color : blue;
+			font-weight : bold;
 		}
 		
 		th {
@@ -189,7 +190,7 @@
 				</p>
 			
 				<table class="table table-bordered">
-					<input type = "hidden" id = "currentPage" name = "currentPage" value=""/>
+				<input type = "hidden" id = "currentPage" name = "currentPage" value="">
 					<thead>
 						<tr>
 							<th>No</th>

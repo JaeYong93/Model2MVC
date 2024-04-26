@@ -128,8 +128,8 @@
 									+'<h3>No:'+no+'</h3>'
 									+'<p>상품명: '+JSONData.list[i].prodName+'</p>'
 									+'<p>가격: '+JSONData.list[i].price.toLocaleString()+"원"+'</p>'
-									+'<p><a href = "#" class="btn btn-default" role="button" data-prodNo='+JSONData.list[i].prodNo+'>상세정보보기</a>'
-									+'&nbsp;<a href="#" class="btn btn-default" role="button">찜하기(구현중...)</a></p>'
+									+'<p><a href = "#" class="btn btn-info btn-lg" role="button" data-prodNo='+JSONData.list[i].prodNo+'>상세정보보기</a>'
+									+'&nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-lg" role="button">찜하기</a></p>'
 									+'</div>'
 									+'</div>'
 									+'</div>');
@@ -205,11 +205,34 @@
 		});
 
 		// 상품정보보기 Event	
-		$(document).on("click", "a:contains('상세정보보기')", function() {
-			var prodNo = $(this).data('prodno');
- 			console.log(prodNo);
- 			self.location = "getProduct?prodNo=" + prodNo + "&menu=search";
+		$(function() {
+			$("a:contains('상세정보보기')").on("click", function() {
+				var prodNo = $(this).data('prodno');
+				self.location = "getProduct?prodNo="+prodNo+"&menu=search";
+			});
 		});
+		
+		// 관리자 상품명 Click Event
+		$(function() {
+			
+			$("td:nth-child(2)").on("click", function() {
+				var prodNo = $(this).data('prodno');
+				var menu = "${menu}";
+				if(menu == 'manage') {
+					self.location = "getProduct?prodNo="+prodNo+"&menu=manage";
+				}
+			});
+		});
+		
+		$(function() {
+			$("a:contains('찜하기')").on("click", function() {
+				alert("찜하기");
+				console.log("찜하기실행");
+				self.locaation = "/product/dibProduct";
+			})
+			
+		})
+		
 			
 		// 회원목록조회 Event
 		$(function() {
@@ -271,11 +294,14 @@
 		.thumbnail {
 			width: 280px;
 			height: 600px;
+			border : 3px solid green;
+			overflow : hidden;
 		}
         
 		.thumbnail img{
-			width: 200px;
-			height: 400px;
+			width: 200px;  
+ 			height: 400px; 
+			display : block; 
 		}
 		
         img  {
@@ -290,7 +316,11 @@
 		.caption p:nth-of-type(2) {
 			font-weight: bold;
 		}		
-			
+		
+		h4 {
+			color : purple;
+			font-weight : bold;
+		}	
 		
 	</style>
 
@@ -301,13 +331,13 @@
 	<jsp:include page="/layout/toolbar.jsp" />
 	
 	<div class="container">
-	
+		<c:if test="${param.menu != null && param.menu eq 'search'}">
 		<div class ="page-header text-info">
-			<c:if test="${param.menu != null && param.menu eq 'search'}">
+		
 			<h4>상품목록조회</h4>
-			</c:if>
+			
 		</div>
-	
+		</c:if>
 		<c:if test="${param.menu != null && param.menu eq 'search'}">
 		<div class="row">
 			<div class="col-md-3 text-left">
@@ -358,8 +388,8 @@
 							<h3>No: ${i}</h3>
 							<p>상품명: ${product.prodName}</p>
 							<p>가격: <fmt:formatNumber value="${product.price}" pattern = "#,###"/>원</p>
-					 			<p><a href = "#" class="btn btn-default" role="button" data-prodNo = "${product.prodNo}">상세정보보기</a>
-					 				<a href="#" class="btn btn-default" role="button">찜하기(구현중...)</a></p>
+					 			<p><a href = "#" class="btn btn-info btn-lg" role="button" data-prodNo = "${product.prodNo}">상세정보보기</a>
+					 		&nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-lg" role="button">찜하기</a></p>
 
 						</div>
 					</div>
@@ -420,6 +450,9 @@
 							<a href="#">구매이력조회</a>
 						</li>
 						<li class="list-group-item">
+							<a href="#">찜한상품</a>
+						</li>						
+						<li class="list-group-item">
 							<a href="#">최근본상품</a>
 						</li>
 					</ul>
@@ -440,7 +473,7 @@
 					<form class="form-inline" name="detailForm">
 						<input type = "hidden" id = "menu" name = "menu" value = "">
 						<div class="form-group">
-												<button type = "button" class="btn btn-success" name="searchOrderByPrice" id="downprice">가격내림차순</button>
+						<button type = "button" class="btn btn-success" name="searchOrderByPrice" id="downprice">가격내림차순</button>
 			    		<button type = "button" class="btn btn-success" name="searchOrderByPrice" id="upprice">가격오름차순</button>
    							<input type = "hidden" id = "searchOrderByPrice" name = "searchOrderByPrice"/>
 							<select class="form-control" name="searchCondition">
@@ -478,7 +511,7 @@
 							<c:set var ="i" value = "${i+1}"/>
 							<tr>
 								<td align="center">${i}</td>
-								<td align="center">${product.prodName}</td>
+								<td align="center" data-prodNo = "${product.prodNo}">${product.prodName}</td>
 								<td align="center"><img src="/images/uploadFiles/${product.fileName}" alt="관리자상품이미지"></td>								 
 								<td align="center"><fmt:formatNumber value="${product.price}" pattern = "#,###"/>원</td>
 								<td align="center">${product.regDate}</td>
@@ -486,7 +519,7 @@
 								<c:if test = "${empty product.proTranCode}">
 									판매중
 								</c:if>
-								<c:if test = "${product.proTranCode == '2'}">
+								<c:if test = "${product.proTranCode == '2'}">w
 									구매완료 배송하기
 								</c:if>
 								<c:if test = "${product.proTranCode != null && product.proTranCode != '2'}">

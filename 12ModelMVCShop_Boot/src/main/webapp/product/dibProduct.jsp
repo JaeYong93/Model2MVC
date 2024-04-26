@@ -32,8 +32,14 @@
  		body {
 			padding-top : 70px;
 		}	
+		
 		h4 {
 			color : red;
+			font-weight : bold;
+		}
+		
+		th {
+			text-align : center;
 		}
 	
 	
@@ -109,6 +115,35 @@
 				<div class ="page-header text-info">
 					<h4>찜한상품</h4>
 				</div>
+				
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>상품명</th>
+								<th>상품이미지</th>
+								<th>가격</th>
+								<th>정보</th>
+							</tr>	
+						</thead>
+						
+						<tbody>
+						<c:set var="i" value ="0"/>
+						<c:forEach var = "product" items = "${list}">
+							<c:set var ="i" value = "${i+1}"/>
+							<tr>
+								<td align="center">${i}</td>
+								<td align="center">${product.prodName}</td>
+								<td align="center"><img src="/images/uploadFiles/${product.fileName}"></td>								 
+								<td align="center"><fmt:formatNumber value="${product.price}" pattern = "#,###"/>원</td>
+								<td align="center">
+								0이면 공백 1이면 찜취소
+								</td>
+							</tr>			
+						</c:forEach>						
+						
+						</tbody>
+					</table>
 				
 			
 			</div>

@@ -150,6 +150,7 @@
 		}
 		h4 {
 			color : green;
+			font-weight : bold;
 		}
 	</style>
 

@@ -140,13 +140,16 @@
 							<i class="glyphicon glyphicon-shopping-cart"></i> 상품구매
 	    			</div>
 					<ul class="list-group">
-						 <li class="list-group-item"><a href="#">상품검색</a></li>
-						  <li class="list-group-item">
-						  	<a href="#">구매이력조회</a> <i class="glyphicon glyphicon-ban-circle"></i>
-						  </li>
-						 <li class="list-group-item">
-						 	<a href="#">최근본상품</a> <i class="glyphicon glyphicon-ban-circle"></i>
-						 </li>
+						<li class="list-group-item"><a href="#">상품검색</a></li>
+						<li class="list-group-item">
+							<a href="#">구매이력조회</a> <i class="glyphicon glyphicon-ban-circle"></i>
+						</li>
+						<li class="list-group-item">
+							<a href="#">찜한상품</a> <i class="glyphicon glyphicon-ban-circle"></i>
+						</li>
+						<li class="list-group-item">
+							<a href="#">최근본상품</a> <i class="glyphicon glyphicon-ban-circle"></i>
+						</li>
 					</ul>
 				</div>
 				

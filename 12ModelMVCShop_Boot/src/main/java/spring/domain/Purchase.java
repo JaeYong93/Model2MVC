@@ -2,8 +2,6 @@ package spring.domain;
 
 import java.sql.Date;
 
-import spring.domain.Product;
-import spring.domain.User;
 
 public class Purchase {
 	

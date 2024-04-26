@@ -25,4 +25,7 @@ public interface ProductService {
 	//오토컴플릿
 	public List<Map<String, Object>> autoComplete(Map<String, Object> parmas) throws Exception;
 	
+	//상품찜하기
+	public void updateDibProduct(Product product) throws Exception;
+	
 }

@@ -1,6 +1,5 @@
 package spring.web.purchase;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -133,7 +132,11 @@ public class PurchaseController {
 	    
 	    search.setPageSize(pageSize);
 	    
-	    String userId = ((User)session.getAttribute("user")).getUserId(); 
+	    User currentUser = (User) session.getAttribute("user");
+	    
+	    String userId = currentUser.getUserId();
+	    
+	    System.out.println(userId);
 	    
 	    Map<String, Object> map = purchaseService.getPurchaseList(search, userId); 
 	    List<Object> list = (List<Object>) map.get("list");

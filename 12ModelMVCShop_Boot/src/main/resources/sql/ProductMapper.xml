@@ -14,7 +14,8 @@
 		<result property="price" 		column="price" 			 jdbcType="INTEGER"/>
 		<result property="fileName" 	column="image_file" 	 jdbcType="VARCHAR"/>
 		<result property="regDate" 		column="reg_date" 		 jdbcType="DATE"/>
-		<result property="proTranCode"	column="proTranCode" jdbcType="VARCHAR"/>
+		<result property="proTranCode"	column="proTranCode" 	 jdbcType="VARCHAR"/>
+		<result property="dibCode"		column="dibCode"		 jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
@@ -73,18 +74,6 @@
 					<if test = "searchOrderByPrice == 2">
 						price ASC
 					</if>					
-					
-<!-- 					<choose> -->
-<!-- 						<when test="searchOrderByPrice == 0 and searchOrderByPrice != null"> -->
-							
-<!-- 						</when> -->
-<!-- 						<when test="searchOrderByPrice == 1 and searchOrderByPrice != null"> -->
-<!-- 							price ASC -->
-<!-- 						</when> -->
-<!-- 						<otherwise> -->
-							
-<!-- 						</otherwise> -->
-<!-- 					</choose>   -->
 					)inner_table
 					WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
@@ -115,4 +104,15 @@
 					</if> ) countTable						
 	 </select>
 	 
+<!-- 	 <update id="updateDibProduct" parameterType="product"> -->
+<!-- 	   	UPDATE product -->
+<!-- 	   	<set> -->
+<!-- 	   		prod_name 	= #{prodName}, -->
+<!-- 			prod_detail	= #{prodDetail}, -->
+<!-- 			manufacture_day 	= #{manuDate}, -->
+<!-- 			price	= #{price}, -->
+<!-- 			image_file = #{fileName} -->
+<!-- 	   	</set> -->
+<!-- 	   	WHERE prod_no = #{prodNo} -->
+<!-- 	 </update> -->
 </mapper>

@@ -49,6 +49,7 @@
 		
 		h4 {
 			color : #FC697D;
+			font-weight : bold;
 		}
 				
 		img {

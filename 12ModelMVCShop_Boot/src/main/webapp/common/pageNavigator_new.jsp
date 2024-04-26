@@ -26,9 +26,10 @@
 				<li>
 				<a href="javascript:${listFunction}('${resultPage.beginUnitPage - 1}')" aria-label="Previous">
 					<span aria-hidden="true">&laquo;</span>
-				</a>		        
+				</a>
+				</li>
 			</c:if>	
-		    </li>
+
 		    
 		    <!--  Áß¾Ó  -->
 			<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">
@@ -52,8 +53,9 @@
 			    <a href="javascript:${listFunction}('${resultPage.endUnitPage + 1}')" aria-label="Next">
 			        <span aria-hidden="true">&raquo;</span>
 			    </a>
+			    </li>
 			</c:if>
-		    </li>
+
 		  </ul>
 		</nav>
 </div>

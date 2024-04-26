@@ -14,6 +14,7 @@ public class Product {
 	private int prodNo;
 	private Date regDate;
 	private String proTranCode;
+	private String dibCode;
 	
 	public Product() {
 	}
@@ -82,13 +83,19 @@ public class Product {
 		this.proTranCode = proTranCode;
 	}
 
+	public String getDibCode() {
+		return dibCode;
+	}
+
+	public void setDibCode(String dibCode) {
+		this.dibCode = dibCode;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [fileName=" + fileName + ", manuDate=" + manuDate + ", price=" + price + ", prodDetail="
 				+ prodDetail + ", prodName=" + prodName + ", prodNo=" + prodNo + ", regDate=" + regDate
-				+ ", proTranCode=" + proTranCode + "]";
+				+ ", proTranCode=" + proTranCode + ", dibCode=" + dibCode + "]";
 	}
 
-
-	
 }

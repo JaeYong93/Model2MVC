@@ -217,15 +217,10 @@
 					</div>
 					
 					<ul class="list-group">
-						<li class="list-group-item">
-							<a href="#">상품검색</a>
-						</li>
-						<li class="list-group-item">
-							<a href="#">구매이력조회</a>
-						</li>
-						<li class="list-group-item">
-							<a href="#">최근본상품</a>
-						</li>
+                         <li><a href="#">상품검색</a></li>
+                         <li><a href="#">구매이력조회</a></li>
+                         <li><a href="#">찜한상품</a></li>	                         
+                         <li><a href="#">최근본상품</a></li>
 					</ul>
 				</div>
 			</div>			

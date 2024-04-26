@@ -78,6 +78,7 @@
             FROM transaction t
             INNER JOIN users u ON t.buyer_id = u.user_id
             INNER JOIN product p ON t.prod_no = p.prod_no
+            WHERE u.user_id = #{userId}
             ORDER BY t.tran_no )
         WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
     ]]>

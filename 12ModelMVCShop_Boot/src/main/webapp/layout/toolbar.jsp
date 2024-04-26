@@ -72,10 +72,7 @@
 	                     </a>
 	                     <ul class="dropdown-menu">
 	                         <li><a href="#">상품검색</a></li>
-	                         
-	                         <c:if test="${sessionScope.user.role == 'user'}">
-	                           <li><a href="#">구매이력조회</a></li>
-	                         </c:if>
+	                         <li><a href="#">구매이력조회</a></li>
 	                         <li><a href="#">찜한상품</a></li>	                         
 	                         <li><a href="#">최근본상품</a></li>
 	                     </ul>
@@ -144,7 +141,7 @@
 
 		// 찜한상품 Event
 	 	$( "a:contains('찜한상품')" ).on("click" , function() {
-			$(self.location).attr("href","../product/likeProduct.jsp");
+			$(self.location).attr("href","../product/dibProduct.jsp");
 		});			
 		
 		// 최근본상품 Event

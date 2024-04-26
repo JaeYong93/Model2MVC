@@ -31,4 +31,7 @@ public interface ProductDao {
 	
 	//페이지 구분
 	public int getTotalCount(Search search) throws Exception;
+	
+	//상품찜하기
+	public void updateDibProduct(Product product) throws Exception;
 }
