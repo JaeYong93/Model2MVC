@@ -73,4 +73,16 @@ public class ProductServiceImpl implements ProductService{
 		productDao.updateDibProduct(product);
 	}
 
+	@Override
+	public Map<String, Object> getDibProductList(Search search, String userId) throws Exception {
+		List<Object> list = productDao.getDibProductList(search, userId);
+		int totalCount = productDao.getTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+
 }

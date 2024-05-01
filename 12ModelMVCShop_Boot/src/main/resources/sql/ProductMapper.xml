@@ -51,7 +51,7 @@
 	<select id="getProductList" parameterType="search" resultMap="productSelectMap">
 	  	SELECT *
 	  	FROM (SELECT inner_table.* , ROWNUM AS row_seq
-	  			FROM(SELECT prod_no, prod_name, prod_detail, price, reg_date, image_file, (SELECT t.tran_status_code FROM transaction t
+	  			FROM(SELECT prod_no, prod_name, prod_detail, price, reg_date, image_file, dibCode, (SELECT t.tran_status_code FROM transaction t
 	  					WHERE p.prod_no = t.prod_no) AS proTranCode
 					FROM product p
 						<if test="searchCondition != null">
@@ -90,7 +90,7 @@
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCount" parameterType="search" resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(SELECT prod_no, prod_name, prod_detail, price, reg_date, image_file
+	  	FROM(SELECT prod_no, prod_name, prod_detail, price, reg_date, image_file, dibCode
 				FROM product
 					<if test="searchCondition != null">
 						<where>
@@ -104,15 +104,20 @@
 					</if> ) countTable						
 	 </select>
 	 
-<!-- 	 <update id="updateDibProduct" parameterType="product"> -->
-<!-- 	   	UPDATE product -->
-<!-- 	   	<set> -->
-<!-- 	   		prod_name 	= #{prodName}, -->
-<!-- 			prod_detail	= #{prodDetail}, -->
-<!-- 			manufacture_day 	= #{manuDate}, -->
-<!-- 			price	= #{price}, -->
-<!-- 			image_file = #{fileName} -->
-<!-- 	   	</set> -->
-<!-- 	   	WHERE prod_no = #{prodNo} -->
-<!-- 	 </update> -->
+	 <update id="updateDibProduct" parameterType="product">
+	   	UPDATE product
+	   	<set>
+	   		DibCode = #{dibCode}
+	   	</set>
+	   	WHERE prod_no = #{prodNo}
+	 </update>
+	 
+	 <select id="getDibProductList" parameterType="map" resultMap="productSelectMap">
+	 	SELECT u.user_id, p.prod_name, p.price, image_file
+			FROM product p, users u
+			WHERE p.dibCode = 1
+			AND u.user_id = #{userId}
+	 	ORDER BY p.prod_no
+	 </select>
+	 
 </mapper>

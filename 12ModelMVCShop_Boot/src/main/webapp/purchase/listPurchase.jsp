@@ -21,6 +21,32 @@
 
 	<script type="text/javascript">
 		
+	var search = {
+			"searchCondition" : $("select[name='searchCondition']").val(),
+			"searchKeyword" : $("#searchKeyword").val(),
+				"searchOrderByPrice" : $("input[name='searchOrderByPrice']").val()
+			}	 
+	 
+	 $.ajax({
+		    url: "/product/json/listProduct",
+		    method: "POST",
+		    contentType: 'application/json; charset=euc-kr',
+		    data: JSON.stringify(search),
+		    dataType: "json",
+		    success: function(responseData) {
+		        var totalCount = responseData.totalCount;
+		        console.log("Total Count:", totalCount);
+
+		        $("#productCountBadge").text(totalCount);
+
+		        var productList = responseData.list;
+
+		    },
+		    error: function() {
+		        console.log("Error 발생");
+		    }
+		});	
+	
 		//구매상품 조회 Event
 		function fncGetPurchaseList(currentPage) {	
 			$("#currentPage").val(currentPage)
@@ -70,6 +96,13 @@
 			});	
 		});		
 		
+		// 찜목록 Event
+		$(function() { 
+			$("a:contains('찜목록')" ).on("click" , function() {
+				$(self.location).attr("href","/product/dibProductList");
+			});
+		});		
+		
 		// 최근본상품 Event
 		$(function() { 
 			$( "a:contains('최근본상품')" ).on("click" , function() {
@@ -79,7 +112,7 @@
 	
 		// 주문상세보기 Event
 		$(function() {
-			$("#detail").on("click", function() {
+			$("td:nth-child(5n)").on("click", function() {
 				var tranNo = $(this).data('tranno');
 				self.location = "/purchase/getPurchase?tranNo="+tranNo;
 			});				
@@ -87,7 +120,7 @@
 		
 		// 배송확인 Event
 		$(function() {
-			$("#check").on("click", function() {
+			$("td:nth=child(7n)").on("click", function() {
 				var tranNo = $(this).data('tranno');
 				var tranCode2 = $(this).data('trancode');
 				var tranCode = String(tranCode2);
@@ -164,13 +197,13 @@
 					
 					<ul class="list-group">
 						<li class="list-group-item">
-							<a href="#">상품검색</a>
+							<a href="#">상품검색 <span class="badge" id="productCountBadge"></span></a>
 						</li>
 						<li class="list-group-item">
 							<a href="#">구매이력조회</a>
 						</li>
 						<li class="list-group-item">
-							<a href="#">찜한상품</a>
+							<a href="#">찜목록</a>
 						</li>						
 						<li class="list-group-item">
 							<a href="#">최근본상품</a>
@@ -212,7 +245,7 @@
 								<td align="center">${purchase.tranNo}</td> 
 								<td align="center">${purchase.purchaseProd.prodName}</td>
 								<td align="right">${purchase.purchaseProd.price}원</td>
-								<td align="center" id="detail" data-tranNo = "${purchase.tranNo}">상세보기</td>
+								<td align="center" data-tranNo = "${purchase.tranNo}">상세보기</td>
 								<td align="left">
 								<c:if test = "${purchase.tranCode == '2'}">
 									구매를 완료했습니다.	
@@ -224,7 +257,7 @@
 									상품이 배송완료 되었습니다.
 								</c:if>	
 								</td>
-								<td align="left" id= "check" data-tranNo = "${purchase.tranNo}" data-tranCode = "${purchase.tranCode}">	
+								<td align="left"  data-tranNo = "${purchase.tranNo}" data-tranCode = "${purchase.tranCode}">	
 								<c:if test = "${purchase.tranCode == '3'}">
 			 						배송확인
 								</c:if>	

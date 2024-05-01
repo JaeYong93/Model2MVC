@@ -28,4 +28,7 @@ public interface ProductService {
 	//상품찜하기
 	public void updateDibProduct(Product product) throws Exception;
 	
+	//찜한목록
+	public Map<String, Object> getDibProductList(Search search, String userId) throws Exception;
+	
 }

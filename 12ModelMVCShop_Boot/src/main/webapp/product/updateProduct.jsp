@@ -37,6 +37,51 @@
 			$("button.btn.btn-primary:contains('취소')").on("click", function() {
 				history.back();	
 			});
+		});	
+
+		// 회원정보조회 Event
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 	$("a:contains('회원목록조회')").on("click" , function() {
+				//$(self.location).attr("href","/user/logout");
+				self.location = "/user/listUser"
+			}); 
+		 });
+		
+		// 개인정보조회회 Event
+	 	$( "a:contains('개인정보조회')" ).on("click" , function() {
+	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$(self.location).attr("href","/user/getUser?userId=${sessionScope.user.userId}");
+		});
+
+		// 판매상품등록 Event
+	 	$( "a:contains('판매상품등록')" ).on("click" , function() {
+			$(self.location).attr("href","../product/addProductView.jsp");
+		});		
+
+		// 판매상품관리 Event
+	 	$( "a:contains('판매상품관리')" ).on("click" , function() {
+			$(self.location).attr("href","/product/listProduct?menu=manage");
+		});		
+		
+		// 상품검색 Event
+	 	$( "a:contains('상품검색')" ).on("click" , function() {
+			$(self.location).attr("href","/product/listProduct?menu=search");
+		});		
+		
+		// 구매이력조회 Event
+	 	$( "a:contains('구매이력조회')" ).on("click" , function() {
+			$(self.location).attr("href","/purchase/listPurchase");
+		});
+
+		// 찜목록 Event
+	 	$( "a:contains('찜목록')" ).on("click" , function() {
+			$(self.location).attr("href","/product/dibProductList");
+		});			
+		
+		// 최근본상품 Event
+	 	$( "a:contains('최근본상품')" ).on("click" , function() {
+			$(self.location).attr("href","../history.jsp");
 		});		
 		
 	
@@ -170,7 +215,7 @@
 								<a href="#">구매이력조회</a>
 							</li>
 							<li class="list-group-item">
-								<a href="#">찜한상품</a>
+								<a href="#">찜목록</a>
 							</li>						
 							<li class="list-group-item">
 								<a href="#">최근본상품</a>

@@ -34,4 +34,8 @@ public interface ProductDao {
 	
 	//상품찜하기
 	public void updateDibProduct(Product product) throws Exception;
+	
+	//찜한목록
+	public List<Object> getDibProductList(Search search, String userId) throws Exception;
+	
 }

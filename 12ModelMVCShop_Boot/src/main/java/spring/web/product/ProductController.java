@@ -6,12 +6,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,10 +27,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import spring.domain.Page;
 import spring.domain.Product;
+import spring.domain.Purchase;
 import spring.domain.Search;
+import spring.domain.User;
 import spring.service.product.ProductService;
 
 
@@ -231,20 +236,77 @@ public class ProductController {
 		model.addAttribute("search", search);
 		
 		System.out.println(search);		
-		
-		System.out.println("search :" +search);
+
 		return "forward:/product/listProduct.jsp";
 	}
 
-	@PostMapping(value ="dibProduct")
-	public String dibProduct(Model model, @ModelAttribute("search") Search search) throws Exception {
+	@RequestMapping(value ="dibProduct")
+	public String dibProduct(Model model, @RequestParam("prodNo") int prodNo, @RequestParam("menu") String menu,
+							@RequestParam("userId") String userId, @ModelAttribute("search") Search search) throws Exception {
 		
 		System.out.println("/product/dibProduct : POST 시작");
 		
 		String dibCode = "1";
 		
+		Product product = productService.getProduct(prodNo);
+		product.setDibCode(dibCode);
+		productService.updateDibProduct(product);
 		
-		return "forward:/product/listProduct.jsp";
+		System.out.println(product);
+				
+		return "redirect:/product/listProduct?menu=search";
+	}
+	
+	@RequestMapping(value ="dibCancleProduct")
+	public String dibCancleProduct(Model model, @RequestParam("prodNo") int prodNo, @RequestParam("menu") String menu,
+							@ModelAttribute("search") Search search) throws Exception {
 		
+		System.out.println("/product/dibCancleProduct : POST 시작");
+		
+		String dibCode = "";
+		
+		Product product = productService.getProduct(prodNo);
+		product.setDibCode(dibCode);
+		productService.updateDibProduct(product);
+		
+		System.out.println(product);
+				
+		return "redirect:/product/dibProductList";
+		
+	}	
+	
+	
+	@RequestMapping(value = "dibProductList")
+	public ModelAndView dibProductList(@ModelAttribute("search") Search search, HttpSession session) throws Exception {
+		
+		System.out.println("dibProductList : 시작");
+		
+		if(search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);		
+		
+	    User currentUser = (User) session.getAttribute("user");
+	    
+	    String userId = currentUser.getUserId();
+	    
+	    System.out.println(userId);
+	    
+	    Map<String, Object> map = productService.getDibProductList(search, userId); 
+	    List<Object> list = (List<Object>) map.get("list");
+	            
+	    Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+	    
+	    System.out.println("map : "+map);
+	    System.out.println("resultPage : "+resultPage);
+	    System.out.println("search : "+search);      
+	    
+	    ModelAndView model = new ModelAndView();
+	    model.addObject("list",list);
+	    model.addObject("resultPage", resultPage);
+	    model.addObject("search", search);
+	    model.setViewName("forward:/product/dibProduct.jsp");
+	    
+	    return model;	    
 	}
 }

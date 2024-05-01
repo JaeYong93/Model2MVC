@@ -64,6 +64,13 @@
 				self.location = "/purchase/listPurchase";
 			});	
 		});		
+
+		// 찜목록 Event
+		$(function() { 
+			$("a:contains('찜목록')" ).on("click" , function() {
+				$(self.location).attr("href","/product/dibProductList");
+			});
+		});				
 		
 		// 최근본상품 Event
 		$(function() { 
@@ -75,8 +82,13 @@
 		// 구매정보 수정 Event
 		$(function() {
 			var tranNo = ${purchase.tranNo};
-			$( "button.btn.btn-primary").on("click" , function() {
-				self.location = "updatePurchaseView?tranNo="+tranNo;
+			var tranCode = ${purchase.tranCode};
+			$("button.btn.btn-primary").on("click" , function() {
+				if(tranCode===4) {
+					alert("이미 배송 완료된 상품으로 수정이 불가능합니다.")
+				} else {
+					self.location = "updatePurchaseView?tranNo="+tranNo;					
+				}
 			});
 		});	
 	
@@ -174,7 +186,7 @@
 							<a href="#">구매이력조회</a>
 						</li>
 						<li class="list-group-item">
-							<a href="#">찜한상품</a>
+							<a href="#">찜목록</a>
 						</li>						
 						<li class="list-group-item">
 							<a href="#">최근본상품</a>

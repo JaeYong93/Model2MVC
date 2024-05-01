@@ -13,6 +13,10 @@
     <c:when test="${param.listType eq 'purchase'}">
         <c:set var="listFunction" value="fncGetPurchaseList" />
     </c:when>    
+    <c:when test="${param.listType eq 'dibProduct'}">
+        <c:set var="listFunction" value="fncGetPurchaseList" />
+    </c:when>    
+    
 </c:choose>
  
 <div class="container text-center">

@@ -73,7 +73,7 @@
 	                     <ul class="dropdown-menu">
 	                         <li><a href="#">상품검색</a></li>
 	                         <li><a href="#">구매이력조회</a></li>
-	                         <li><a href="#">찜한상품</a></li>	                         
+	                         <li><a href="#">찜목록</a></li>	                         
 	                         <li><a href="#">최근본상품</a></li>
 	                     </ul>
 	                 </li>
@@ -139,9 +139,9 @@
 			$(self.location).attr("href","/purchase/listPurchase");
 		});
 
-		// 찜한상품 Event
-	 	$( "a:contains('찜한상품')" ).on("click" , function() {
-			$(self.location).attr("href","../product/dibProduct.jsp");
+		// 찜목록 Event
+	 	$( "a:contains('찜목록')" ).on("click" , function() {
+			$(self.location).attr("href","/product/dibProductList");
 		});			
 		
 		// 최근본상품 Event

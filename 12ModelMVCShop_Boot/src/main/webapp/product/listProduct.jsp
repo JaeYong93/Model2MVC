@@ -24,6 +24,33 @@
 
 	<script type="text/javascript">
 
+		var search = {
+				"searchCondition" : $("select[name='searchCondition']").val(),
+				"searchKeyword" : $("#searchKeyword").val(),
+					"searchOrderByPrice" : $("input[name='searchOrderByPrice']").val()
+				}	 
+		 
+		 $.ajax({
+			    url: "/product/json/listProduct",
+			    method: "POST",
+			    contentType: 'application/json; charset=euc-kr',
+			    data: JSON.stringify(search),
+			    dataType: "json",
+			    success: function(responseData) {
+			        var totalCount = responseData.totalCount;
+			        console.log("Total Count:", totalCount);
+	
+			        $("#productCountBadge").text(totalCount);
+	
+			        var productList = responseData.list;
+	
+			    },
+			    error: function() {
+			        console.log("Error 발생");
+			    }
+			});	
+	
+	
 		// 오토컴플릿 Event
 		$(function() {
 			var searchCondition = 0;
@@ -120,6 +147,9 @@
 							for(var i=0 ; i < 4 ; i++){
 								var no = (currentPage - 2) * 4 + (i + 1);
 								var fileName = JSONData.list[i].fileName;
+								var dibCode = JSONData.list[i].dibCode;
+								
+								var dibButtonText = (dibCode === '1') ? "찜한상품" : "찜하기"
 
 								$('.row:last').append('<div class="col-sm-4 col-md-3" id="scroll">'
 									+'<div class="thumbnail">'
@@ -129,7 +159,8 @@
 									+'<p>상품명: '+JSONData.list[i].prodName+'</p>'
 									+'<p>가격: '+JSONData.list[i].price.toLocaleString()+"원"+'</p>'
 									+'<p><a href = "#" class="btn btn-info btn-lg" role="button" data-prodNo='+JSONData.list[i].prodNo+'>상세정보보기</a>'
-									+'&nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-lg" role="button">찜하기</a></p>'
+									+'&nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-lg" role="button" data-prodNo='+JSONData.list[i].prodNo+'>'
+									+dibButtonText+'</a></p>'
 									+'</div>'
 									+'</div>'
 									+'</div>');
@@ -205,11 +236,9 @@
 		});
 
 		// 상품정보보기 Event	
-		$(function() {
-			$("a:contains('상세정보보기')").on("click", function() {
-				var prodNo = $(this).data('prodno');
-				self.location = "getProduct?prodNo="+prodNo+"&menu=search";
-			});
+		$(document).on("click", "a:contains('상세정보보기')", function() {
+			var prodNo = $(this).data('prodno');
+			self.location = "getProduct?prodNo=" + prodNo + "&menu=search";
 		});
 		
 		// 관리자 상품명 Click Event
@@ -224,16 +253,18 @@
 			});
 		});
 		
-		$(function() {
-			$("a:contains('찜하기')").on("click", function() {
-				alert("찜하기");
-				console.log("찜하기실행");
-				self.locaation = "/product/dibProduct";
-			})
-			
-		})
-		
-			
+		// 찜하기 Event
+		$(document).on("click", ".btn.btn-primary.btn-lg", function() {	
+			var prodNo = $(this).data('prodno');
+			var dibCode = $(this).data('dibcode');
+			if(dibCode !== 1) {
+				alert("찜하기 실행");
+				self.location = "dibProduct?prodNo="+prodNo+"&menu=search";
+			} else {
+				alert("해당 상품은 이미 찜한 상태입니다.");
+			}	
+		});
+
 		// 회원목록조회 Event
 		$(function() {
 			$("a:contains('회원목록조회')").on("click" , function() {
@@ -274,7 +305,14 @@
 			$("a[href='#']:contains('구매이력조회')").on("click" , function() {
 				self.location = "/purchase/listPurchase";
 			});
-		});		
+		});
+
+		// 찜목록 Event
+		$(function() { 
+			$("a:contains('찜목록')" ).on("click" , function() {
+				$(self.location).attr("href","/product/dibProductList");
+			});
+		});				
 		
 		// 최근본상품 Event
 		$(function() { 
@@ -292,7 +330,7 @@
 		}
 		
 		.thumbnail {
-			width: 280px;
+			width: 300px;
 			height: 600px;
 			border : 3px solid green;
 			overflow : hidden;
@@ -322,6 +360,11 @@
 			font-weight : bold;
 		}	
 		
+		#all {
+			font-size : 16px;
+			font-weight : bold
+		}
+		
 	</style>
 
 </head>
@@ -341,7 +384,7 @@
 		<c:if test="${param.menu != null && param.menu eq 'search'}">
 		<div class="row">
 			<div class="col-md-3 text-left">
-				<p class="text-primary">전체 ${resultPage.totalCount}건, 현재 ${resultPage.currentPage}페이지</p>
+				<p class="text-primary" id="all">전체 ${resultPage.totalCount}건</p>
 		    </div>	
 
 			<div class="col-md-9 text-right">
@@ -389,8 +432,16 @@
 							<p>상품명: ${product.prodName}</p>
 							<p>가격: <fmt:formatNumber value="${product.price}" pattern = "#,###"/>원</p>
 					 			<p><a href = "#" class="btn btn-info btn-lg" role="button" data-prodNo = "${product.prodNo}">상세정보보기</a>
-					 		&nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-lg" role="button">찜하기</a></p>
-
+					 			&nbsp;&nbsp;&nbsp;
+					 			<a href="#" class="btn btn-primary btn-lg" role="button" data-prodNo = "${product.prodNo}" data-dibCode = "${product.dibCode}">
+					 			<c:if test = "${product.dibCode eq 1}"> 
+					 			찜한상품
+					 			</c:if>
+					 			<c:if test = "${product.dibCode == null}">
+					 			찜하기
+					 			</c:if>
+					 			</a>
+					 			</p>
 						</div>
 					</div>
 				</div>			
@@ -444,13 +495,13 @@
 					
 					<ul class="list-group">
 						<li class="list-group-item">
-							<a href="#">상품검색</a>
+							<a href="#">상품검색 <span class="badge" id="productCountBadge"></span></a>
 						</li>
 						<li class="list-group-item">
 							<a href="#">구매이력조회</a>
 						</li>
 						<li class="list-group-item">
-							<a href="#">찜한상품</a>
+							<a href="#">찜목록</a>
 						</li>						
 						<li class="list-group-item">
 							<a href="#">최근본상품</a>

@@ -46,6 +46,43 @@
 			});
 		});
 		
+		// 개인정보조회 Event	
+		$(function() {
+			$("a[href='#']:contains('개인정보조회')").on("click" , function()  {
+				self.location = "/user/getUser?userId=${sessionScope.user.userId}"
+			});
+		});
+		
+		// 상품검색 Event
+		$(function() {
+			$("a[href='#' ]:contains('상품검색')").on("click" , function()  {
+				self.location = "/product/listProduct?menu=search"
+			});
+		});	
+		
+		// 구매이력조회 Event
+		$(function() {
+			$("a[href='#']:contains('구매이력조회')").on("click" , function() {
+				self.location = "/purchase/listPurchase";
+			});
+		});		
+
+		// 찜목록 Event
+		$(function() { 
+			$("a:contains('찜목록')" ).on("click" , function() {
+				$(self.location).attr("href","/product/dibProductList");
+			});
+		});		
+				
+		// 최근본상품 Event
+		$(function() { 
+		$( "a:contains('최근본상품')" ).on("click" , function() {
+				$(self.location).attr("href","../history.jsp");
+			});
+		});	
+		
+		
+		
 	</script>	
 	
 	<style>
@@ -114,7 +151,7 @@
 								<a href="#">구매이력조회</a>
 							</li>
 							<li class="list-group-item">
-								<a href="#">찜한상품</a>
+								<a href="#">찜목록</a>
 							</li>						
 							<li class="list-group-item">
 								<a href="#">최근본상품</a>

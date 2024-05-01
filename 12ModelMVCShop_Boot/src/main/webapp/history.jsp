@@ -26,6 +26,32 @@
 
 	<script type="text/javascript">
 
+	var search = {
+			"searchCondition" : $("select[name='searchCondition']").val(),
+			"searchKeyword" : $("#searchKeyword").val(),
+				"searchOrderByPrice" : $("input[name='searchOrderByPrice']").val()
+			}	 
+	 
+	 $.ajax({
+		    url: "/product/json/listProduct",
+		    method: "POST",
+		    contentType: 'application/json; charset=euc-kr',
+		    data: JSON.stringify(search),
+		    dataType: "json",
+		    success: function(responseData) {
+		        var totalCount = responseData.totalCount;
+		        console.log("Total Count:", totalCount);
+
+		        $("#productCountBadge").text(totalCount);
+
+		        var productList = responseData.list;
+
+		    },
+		    error: function() {
+		        console.log("Error 발생");
+		    }
+		});		
+	
 		// 회원목록조회 Event
 		$(function() {
 			$("a:contains('회원목록조회')").on("click" , function() {
@@ -60,6 +86,13 @@
 				self.location = "/product/listProduct?menu=search"
 			});
 		});	
+		
+		// 찜목록 Event
+		$(function() { 
+			$("a:contains('찜목록')" ).on("click" , function() {
+				$(self.location).attr("href","/product/dibProductList");
+			});
+		});			
 		
 		// 구매이력조회 Event
 		$(function() {
@@ -137,11 +170,14 @@
 					
 					<ul class="list-group">
 						<li class="list-group-item">
-							<a href="#">상품검색</a>
+							<a href="#">상품검색 <span class="badge" id="productCountBadge"></span></a>
 						</li>
 						<li class="list-group-item">
 							<a href="#">구매이력조회</a>
 						</li>
+						<li class="list-group-item">
+							<a href="#">찜목록</a>
+						</li>						
 						<li class="list-group-item">
 							<a href="#">최근본상품</a>
 						</li>
@@ -183,35 +219,35 @@
 	
 	    if (history != null) {
 	        String[] h = history.split("\\|");
-	        for (int i = 0; i < h.length; i++) {
-	            if (!h[i].equals("null")) {
 	%>	
-	
-	
 			<div class="col-md-9">
 				<h4>최근열어본상품</h4>
 				<div>
-					<a href="/product/getProduct?prodNo=<%=h[i]%>&menu=search" target="rightFrame"><%=h[i]%></a>
-					<br/>
-				</div>
 	<%
-	            }
-	        }
-	    } else if (history == null) {
+			for (int i = 0; i < h.length; i++) {
+	%>			
+				<a href="/product/getProduct?prodNo=<%=h[i]%>&menu=search" target="rightFrame"><%=h[i]%></a> <br/>
+	<%
+			}
+	%>			
+				</div>
+			</div>	
+	<%
+	    } else {
 	%>  
 	    	
 	    	<div class="col-md-9">
 			<h4>최근열어본상품</h4>
 			<div>
+		</div>
+	</div>
+			
 	<% 		
 	    }
 	%>				
-			</div>
-		</div>
+
 
 	</div>			
-
-
 
 </body>
 </html>

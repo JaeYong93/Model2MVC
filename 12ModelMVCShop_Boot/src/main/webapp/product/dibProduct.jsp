@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 
 <html lang="ko">
-<title>찜한상품</title>
+<title>찜목록</title>
 <head>
 	<meta charset="EUC-KR">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,6 +25,84 @@
 	
 	<script type="text/javascript">
 	
+	var search = {
+			"searchCondition" : $("select[name='searchCondition']").val(),
+			"searchKeyword" : $("#searchKeyword").val(),
+				"searchOrderByPrice" : $("input[name='searchOrderByPrice']").val()
+			}	 
+	 
+	 $.ajax({
+		    url: "/product/json/listProduct",
+		    method: "POST",
+		    contentType: 'application/json; charset=euc-kr',
+		    data: JSON.stringify(search),
+		    dataType: "json",
+		    success: function(responseData) {
+		        var totalCount = responseData.totalCount;
+		        console.log("Total Count:", totalCount);
+
+		        $("#productCountBadge").text(totalCount);
+
+		        var productList = responseData.list;
+
+		    },
+		    error: function() {
+		        console.log("Error 발생");
+		    }
+		});		
+	
+		//찜하기 취소
+		$(function() {
+			$("td:nth-child(5n)").on("click", function() {
+				var prodNo = $(this).data('prodno');
+				alert("찜하기거 취소되었습니다.");
+				self.location = "dibCancleProduct?prodNo="+prodNo+"&menu=search";	
+			});
+		});
+
+		//찜한 상품조회
+		$(function() {
+			$("td:nth-child(2n)").on("click", function() {
+				var prodNo = $(this).data('prodno');
+				self.location = "getProduct?prodNo="+prodNo+"&menu=search";	
+			});
+		});		
+		
+		// 개인정보조회 Event	
+		$(function() {
+			$("a[href='#']:contains('개인정보조회')").on("click" , function()  {
+				self.location = "/user/getUser?userId=${sessionScope.user.userId}"
+			});
+		});
+		
+		// 상품검색 Event
+		$(function() {
+			$("a[href='#' ]:contains('상품검색')").on("click" , function()  {
+				self.location = "/product/listProduct?menu=search"
+			});
+		});	
+		
+		// 구매이력조회 Event
+		$(function() {
+			$("a[href='#']:contains('구매이력조회')").on("click" , function() {
+				self.location = "/purchase/listPurchase";
+			});
+		});		
+
+		// 찜목록 Event
+		$(function() { 
+			$("a:contains('찜목록')" ).on("click" , function() {
+				$(self.location).attr("href","/product/dibProductList");
+			});
+		});		
+				
+		// 최근본상품 Event
+		$(function() { 
+		$( "a:contains('최근본상품')" ).on("click" , function() {
+				$(self.location).attr("href","../history.jsp");
+			});
+		});	
+		
 	</script>
 	
 	<style>
@@ -41,6 +119,11 @@
 		th {
 			text-align : center;
 		}
+		
+        img  {
+        	width : 50px;
+        	height : 50px;
+        }  
 	
 	
 	</style>
@@ -96,13 +179,13 @@
 					
 					<ul class="list-group">
 						<li class="list-group-item">
-							<a href="#">상품검색</a>
+							<a href="#">상품검색 <span class="badge" id="productCountBadge"></span></a>
 						</li>
 						<li class="list-group-item">
 							<a href="#">구매이력조회</a>
 						</li>
 						<li class="list-group-item">
-							<a href="#">찜한상품</a>
+							<a href="#">찜목록</a>
 						</li>						
 						<li class="list-group-item">
 							<a href="#">최근본상품</a>
@@ -133,20 +216,21 @@
 							<c:set var ="i" value = "${i+1}"/>
 							<tr>
 								<td align="center">${i}</td>
-								<td align="center">${product.prodName}</td>
+								<td align="center" data-prodNo = "${product.prodNo}">${product.prodName}</td>
 								<td align="center"><img src="/images/uploadFiles/${product.fileName}"></td>								 
 								<td align="center"><fmt:formatNumber value="${product.price}" pattern = "#,###"/>원</td>
-								<td align="center">
-								0이면 공백 1이면 찜취소
+								<td align="center" data-prodNo = "${product.prodNo}">
+								찜한상태 찜하기 취소
 								</td>
 							</tr>			
 						</c:forEach>						
 						
 						</tbody>
 					</table>
-				
-			
 			</div>
+			<jsp:include page="../common/pageNavigator_new.jsp">	
+				<jsp:param name = "listType" value = "dibProduct"/>
+			</jsp:include>	
 			
 		</div>			
 	</div>	
