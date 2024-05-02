@@ -32,6 +32,10 @@
 		.jumbotron h1 {
 			color: #94ca5b;
 		}
+		img {
+			wwidth : 200px;
+			height : 250px;
+		}
 	</style>
    	
    	
@@ -132,7 +136,7 @@
 		       	<!--  회원관리 목록에 제목 -->
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						<i class="glyphicon glyphicon-heart"></i> 회원관리
+						<i class="glyphicon glyphicon-user"></i> 회원관리
          			</div>
          			<!--  회원관리 아이템 -->
 					<ul class="list-group">
@@ -187,19 +191,17 @@
 	 	 	<!--  Main start /////////////////////////////////////-->   		
 	 	 	<div class="col-md-9">
 				<div class="jumbotron">
+					<img src="./images/welcome.jpg" class="fluid">
 			  		<h1>Model2 MVC Shop</h1>
 			  		<br/>
-			  		<p>로그인 전에는 상품 검색만 가능합니다.</p>
-			  		<br/><br/>
-					<p>상품 구매를 희망하시면</p>
-			  		<br/><br/>
-			  		<p>회원가입 후 이용해주세요.</p>
+			  		<p>우리 Shop에 오신 것을 환영합니다.</p>
+			  		<br/>
+					<p>회원가입 전에는 상품 검색만 가능합니다.</p>
 			  		
 			  		<div class="text-center">
 			  			<a class="btn btn-info btn-lg" href="#" role="button">로 그 인</a>			  		
 			  			<a class="btn btn-info btn-lg" href="#" role="button">회원가입</a>
 			  		</div>
-			  	
 			  	</div>
 	        </div>
 	   	 	<!--  Main end /////////////////////////////////////-->   		
