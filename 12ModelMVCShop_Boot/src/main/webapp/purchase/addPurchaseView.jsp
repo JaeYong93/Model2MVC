@@ -24,8 +24,35 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
 		
 	<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-
+	
 	<script type="text/javascript">
+
+		var search = {
+				"searchCondition" : $("select[name='searchCondition']").val(),
+				"searchKeyword" : $("#searchKeyword").val(),
+					"searchOrderByPrice" : $("input[name='searchOrderByPrice']").val()
+				}	 
+		 
+		 $.ajax({
+			    url: "/product/json/listProduct",
+			    method: "POST",
+			    contentType: 'application/json; charset=euc-kr',
+			    data: JSON.stringify(search),
+			    dataType: "json",
+			    success: function(responseData) {
+			        var totalCount = responseData.totalCount;
+			        console.log("Total Count:", totalCount);
+	
+			        $("#productCountBadge").text(totalCount);
+	
+			        var productList = responseData.list;
+	
+			    },
+			    error: function() {
+			        console.log("Error 발생");
+			    }
+			});
+	
 	
 		// 상품구매 Event
 		$(function() {
@@ -134,6 +161,18 @@
 		body {
 			padding-top : 70px;
 		}
+		
+		.ui-datepicker {
+		    z-index: 9999 !important;
+		}		
+		
+		.form-control {
+ 		   width: 300px;
+		}
+		
+		.col-sm-4 {
+		    width: 50%;
+		}		
 	</style>
 </head>
 
@@ -183,7 +222,7 @@
 					</div>
 					<ul class="list-group">
 						<li class="list-group-item">
-							<a href="#">상품검색</a>
+							<a href="#">상품검색<span class="badge" id="productCountBadge"></span></a>
 						</li>
 						<li class="list-group-item">
 							<a href="#">구매이력조회</a>
@@ -265,10 +304,77 @@
 				<div class="form-group">
 					<label for="dlvyAddr" class="col-sm-2 control-label" >구매자주소</label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="dlvyAddr" name="dlvyAddr" value="${user.addr}">
+						<div class="input-group">
+							<input type="text" class="form-control" id="dlvyAddr" name="dlvyAddr" placeholder="주소를 입력해주세요.">
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default" onclick="DaumPostcode()">주소검색</button>
+							</span>
+						</div>
+						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 					</div>
 				</div>
+
+
 				
+				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>			
+				<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5e3239f6b618581baf00d6add12eb8ef&libraries=services"></script>
+				
+				<script>
+			
+					var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+						mapOption = {
+						center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+						level: 5 // 지도의 확대 레벨
+					};
+			
+					//지도를 미리 생성
+					var map = new daum.maps.Map(mapContainer, mapOption);
+					//주소-좌표 변환 객체를 생성
+					var geocoder = new daum.maps.services.Geocoder();
+					//마커를 미리 생성
+					var marker = new daum.maps.Marker({
+						position: new daum.maps.LatLng(37.537187, 127.005476),
+						map : map
+					});
+					
+					function DaumPostcode() {
+						new daum.Postcode({
+							oncomplete: function(data) {
+								var addr = data.address; // 최종 주소 변수
+			
+								// 주소 정보를 해당 필드에 넣는다.
+								document.getElementById("dlvyAddr").value = addr;
+								// 주소로 상세 정보를 검색
+								geocoder.addressSearch(data.address, function(results, status) {
+									// 정상적으로 검색이 완료됐으면
+									if (status === daum.maps.services.Status.OK) {
+					
+					 					var result = results[0]; //첫번째 결과의 값을 활용
+
+										// 해당 주소에 대한 좌표를 받아서
+										var coords = new daum.maps.LatLng(result.y, result.x);
+					 					
+										// 지도를 보여준다.
+										mapContainer.style.display = "block";
+										map.relayout();
+										
+										// 지도 중심을 변경한다.
+										map.setCenter(coords);
+										// 마커를 결과값으로 받은 위치로 옮긴다.
+										marker.setPosition(coords)
+										
+								        var infowindow = new kakao.maps.InfoWindow({
+								            content: '<div style="width:200px;text-align:center;padding:6px 0;">'+result.address_name+'</div>'
+								        });
+								        infowindow.open(map, marker);
+										
+									}
+								});
+							}
+			   	 		}).open();
+					}
+				</script>				
+			
 				<div class="form-group">
 					<label for="dlvyRequest" class="col-sm-2 control-label" >구매요청사항</label>
 					<div class="col-sm-4">				

@@ -113,7 +113,7 @@
 	 </update>
 	 
 	 <select id="getDibProductList" parameterType="map" resultMap="productSelectMap">
-	 	SELECT u.user_id, p.prod_name, p.price, image_file
+	 	SELECT u.user_id, p.prod_no, p.prod_name, p.price, image_file
 			FROM product p, users u
 			WHERE p.dibCode = 1
 			AND u.user_id = #{userId}

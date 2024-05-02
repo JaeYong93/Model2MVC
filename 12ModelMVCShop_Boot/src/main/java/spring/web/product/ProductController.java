@@ -242,7 +242,7 @@ public class ProductController {
 
 	@RequestMapping(value ="dibProduct")
 	public String dibProduct(Model model, @RequestParam("prodNo") int prodNo, @RequestParam("menu") String menu,
-							@RequestParam("userId") String userId, @ModelAttribute("search") Search search) throws Exception {
+							@ModelAttribute("search") Search search) throws Exception {
 		
 		System.out.println("/product/dibProduct : POST Ω√¿€");
 		

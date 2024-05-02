@@ -55,7 +55,7 @@
 		$(function() {
 			$("td:nth-child(5n)").on("click", function() {
 				var prodNo = $(this).data('prodno');
-				alert("찜하기거 취소되었습니다.");
+				alert("찜하기가 취소되었습니다.");
 				self.location = "dibCancleProduct?prodNo="+prodNo+"&menu=search";	
 			});
 		});

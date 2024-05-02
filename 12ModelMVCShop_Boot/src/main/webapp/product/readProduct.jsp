@@ -23,7 +23,32 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 	<script type="text/javascript">
-		
+
+		var search = {
+				"searchCondition" : $("select[name='searchCondition']").val(),
+				"searchKeyword" : $("#searchKeyword").val(),
+					"searchOrderByPrice" : $("input[name='searchOrderByPrice']").val()
+				}	 
+		 
+		 $.ajax({
+			    url: "/product/json/listProduct",
+			    method: "POST",
+			    contentType: 'application/json; charset=euc-kr',
+			    data: JSON.stringify(search),
+			    dataType: "json",
+			    success: function(responseData) {
+			        var totalCount = responseData.totalCount;
+			        console.log("Total Count:", totalCount);
+	
+			        $("#productCountBadge").text(totalCount);
+	
+			        var productList = responseData.list;
+	
+			    },
+			    error: function() {
+			        console.log("Error 발생");
+			    }
+			});	
 	
 		//상품 구매 Event	
 		$(function() {
@@ -145,7 +170,7 @@
 						
 						<ul class="list-group">
 							<li class="list-group-item">
-								<a href="#">상품검색</a>
+								<a href="#">상품검색<span class="badge" id="productCountBadge"></span></a>
 							</li>
 							<li class="list-group-item">
 								<a href="#">구매이력조회</a>
