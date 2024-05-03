@@ -17,13 +17,14 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
-	<script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-	
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://www.example.com/javascript/bootstrap-dropdownhover.min.js"></script>
+		
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
 		
-	<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+	<link href="https://www.example.com/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
 	
 	<script type="text/javascript">
 
@@ -313,8 +314,6 @@
 						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 					</div>
 				</div>
-
-
 				
 				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>			
 				<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5e3239f6b618581baf00d6add12eb8ef&libraries=services"></script>

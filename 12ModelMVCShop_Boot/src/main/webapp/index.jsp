@@ -33,8 +33,8 @@
 			color: #94ca5b;
 		}
 		img {
-			wwidth : 200px;
-			height : 250px;
+		    max-width: 100%; /* 이미지의 최대 너비를 부모 요소의 너비에 맞게 설정 */
+		    height: auto; /* 이미지의 높이를 자동으로 조정하여 원래 비율 유지 */
 		}
 	</style>
    	
@@ -191,7 +191,7 @@
 	 	 	<!--  Main start /////////////////////////////////////-->   		
 	 	 	<div class="col-md-9">
 				<div class="jumbotron">
-					<img src="./images/welcome.jpg" class="fluid">
+					<img src="./images/welcome.jpg" class="fluid-image">
 			  		<h1>Model2 MVC Shop</h1>
 			  		<br/>
 			  		<p>우리 Shop에 오신 것을 환영합니다.</p>
