@@ -7,7 +7,7 @@ public class Purchase {
 	
 	private User buyer;
 	private String dlvyAddr;
-	private Date dlvyDate;
+	private String dlvyDate;
 	private String dlvyRequest;
 	private Date orderDate;
 	private String paymentOption;
@@ -32,10 +32,10 @@ public class Purchase {
 	public void setDlvyAddr(String dlvyAddr) {
 		this.dlvyAddr = dlvyAddr;
 	}
-	public Date getDlvyDate() {
+	public String getDlvyDate() {
 		return dlvyDate;
 	}
-	public void setDlvyDate(Date dlvyDate) {
+	public void setDlvyDate(String dlvyDate) {
 		this.dlvyDate = dlvyDate;
 	}
 	

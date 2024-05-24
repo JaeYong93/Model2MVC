@@ -54,7 +54,6 @@
 			    }
 			});
 	
-	
 		// 상품구매 Event
 		$(function() {
 			$( "button.btn.btn-primary").on("click" , function() {

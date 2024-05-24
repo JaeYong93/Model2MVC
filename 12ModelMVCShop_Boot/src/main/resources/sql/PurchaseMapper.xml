@@ -30,7 +30,7 @@
 		receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date) 
 		VALUES(seq_transaction_tran_no.nextval, #{purchaseProd.prodNo}, '${purchaseProd.prodName}', #{purchaseProd.price},  #{buyer.userId}, 
 				TRIM(#{paymentOption}), #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR}, 
-				#{dlvyAddr:VARCHAR}, #{dlvyRequest:VARCHAR}, 2, SYSDATE, #{dlvyDate:DATE})		
+				#{dlvyAddr:VARCHAR}, #{dlvyRequest:VARCHAR}, 2, SYSDATE, TO_DATE(#{dlvyDate},'YYYY-MM-DD'))		
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
