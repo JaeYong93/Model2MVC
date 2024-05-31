@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="01.Model2MVCShop(stu):war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/01_Model2MVCShop_stu__war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="01.Model2MVCShop(stu)" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="application" name="lib" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="01.Model2MVCShop(stu)/web/Web" />
+    </root>
+  </artifact>
+</component>
